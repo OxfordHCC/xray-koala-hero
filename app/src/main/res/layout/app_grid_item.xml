@@ -20,7 +20,6 @@
         android:text="APP NAME"
         android:gravity="center"
         android:textSize="10dp"
-
         />
 
 </LinearLayout>
