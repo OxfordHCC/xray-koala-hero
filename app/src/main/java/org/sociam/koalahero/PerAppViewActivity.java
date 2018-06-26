@@ -72,6 +72,34 @@ public class PerAppViewActivity extends AppCompatActivity {
 
                 System.out.println("Position: " + position);
 
+//                String chosen = categories[position];
+//
+//                // Launch Per App View Activity
+//                Intent intent = new Intent(context, AdditionalInfoCMSActivity.class);
+//                boolean start = true;
+//
+//                switch( chosen ){
+//                    case "CMS":
+//                        intent = new Intent(context, AdditionalInfoCMSActivity.class);
+//                        break;
+//                    case "Trackers":
+//                        intent = new Intent(context, AdditionalInfoCMSActivity.class);
+//                        break;
+//                    case "MapView":
+//                        intent = new Intent(context, AdditionalInfoCMSActivity.class);
+//                        break;
+//                    case "ForParents":
+//                        intent = new Intent(context, AdditionalInfoCMSActivity.class);
+//                        break;
+//                    default:
+//                        start = false;
+//                }
+//
+//                if( start ){
+//                    intent.putExtra("PACKAGE_NAME", packageName );
+//                    startActivity(intent);
+//                }
+
             }
         });
     }
