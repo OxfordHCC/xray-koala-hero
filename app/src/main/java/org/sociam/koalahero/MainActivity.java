@@ -87,8 +87,12 @@ public class MainActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
         if (resultCode == Activity.RESULT_CANCELED) {
-            // code to handle cancelled state...
-
+            if(checkForUsageManagerPermission(getApplicationContext())) {
+                startApp();
+            }
+            else{
+                // how to handle not granting permission????
+            }
         }
         else if (requestCode == APP_USAGE_PERMISSION_INTENT) {
             if(checkForUsageManagerPermission(getApplicationContext())) {
