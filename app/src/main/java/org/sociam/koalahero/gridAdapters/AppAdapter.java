@@ -30,16 +30,17 @@ public class AppAdapter extends BaseAdapter {
         layoutInflator = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.appModel = appModel;
 
-        System.out.println("No. Apps to Display In Grid: " + appModel.apps.size());
+        System.out.println("No. Apps to Display In Grid: " + appModel.installedApps.size());
+
     }
 
     public int getCount() {
-        return appModel.apps.size();
+        return appModel.installedApps.size();
     }
 
     public Object getItem(int position) {
         String appName = appModel.appNames[position];
-        return appModel.apps.get(appName);
+        return appModel.installedApps.get(appName);
     }
 
     public long getItemId(int position) {

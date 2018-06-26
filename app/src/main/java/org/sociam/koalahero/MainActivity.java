@@ -26,9 +26,10 @@ import org.sociam.koalahero.appsInspector.AppModel;
 import org.sociam.koalahero.appsInspector.AppsInspector;
 import org.sociam.koalahero.csm.CSMAPI;
 import org.sociam.koalahero.csm.CSMAppInfo;
+import org.sociam.koalahero.koala.KoalaData.NoJSONData;
 import org.sociam.koalahero.koala.KoalaAPI;
-import org.sociam.koalahero.koala.RegistrationDetails;
-import org.sociam.koalahero.koala.TokenResponse;
+import org.sociam.koalahero.koala.KoalaData.RegistrationDetails;
+import org.sociam.koalahero.koala.KoalaData.TokenResponse;
 import org.sociam.koalahero.xray.XRayAPI;
 import org.sociam.koalahero.xray.XRayAppInfo;
 
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     public static String PACKAGE_NAME;
     private AppModel appModel;
     private PreferenceManager preferenceManager;
+    private KoalaAPI koalaAPI;
 
     // UI elements
     private ProgressBar pb;
@@ -51,13 +53,22 @@ public class MainActivity extends AppCompatActivity {
         this.PACKAGE_NAME = getApplicationContext().getPackageName();
         this.preferenceManager = PreferenceManager.getInstance(getApplicationContext());
         this.appModel = AppModel.getInstance();
+        this.koalaAPI = KoalaAPI.getInstance();
+
+        AppsInspector.logInteractionInfo(
+                getApplicationContext(),
+                "MainActivity",
+                "",
+                "app_launch",
+                new NoJSONData()
+        );
 
 
         // if no token, launch login,
         if(preferenceManager.getKoalaToken().equals("")) {
             launchLogin();
         }
-        else if(appModel.apps.size() == 0){
+        else if(appModel.installedApps.size() == 0){
             beginLoading();
         }
         else{
@@ -76,24 +87,25 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 final RegistrationDetails regDeets = new RegistrationDetails(studyIDET.getText().toString(), passwordET.getText().toString());
-                new KoalaAPI.KoalaLoginRequest(
-                        new Function<TokenResponse, Void>() {
-                            @Override
-                            public Void apply(TokenResponse tokenResponse) {
-                                if(!tokenResponse.token.equals("")) {
-                                    preferenceManager.saveKoalaStudyID(regDeets.study_id);
-                                    preferenceManager.saveKoalaToken(tokenResponse.token);
-                                    beginLoading();
-                                }
-                                else {
-                                    studyIDET.setError("Invalid Login Details");
-                                    passwordET.setError("Invalid Login Details");
-                                }
-                                return null;
-                            }
-                        },
-                        getApplicationContext()
-                ).execute(regDeets);
+                koalaAPI.executeKoalaLoginRequest(
+                    new Function<TokenResponse, Void>() {
+                         @Override
+                         public Void apply(TokenResponse tokenResponse) {
+                             if(!tokenResponse.token.equals("")) {
+                                 preferenceManager.saveKoalaStudyID(regDeets.study_id);
+                                 preferenceManager.saveKoalaToken(tokenResponse.token);
+                                 beginLoading();
+                             }
+                             else {
+                                 studyIDET.setError("Invalid Login Details");
+                                 passwordET.setError("Invalid Login Details");
+                             }
+                             return null;
+                         }
+                    },
+                    getApplicationContext(),
+                    regDeets
+                );
             }
         });
     }
@@ -106,6 +118,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Retrieve App Package Names
         final ArrayList<String> appPackageNames = AppsInspector.getInstalledApps(getPackageManager());
+
 
         // Init Progress Bar.
         pb = (ProgressBar) findViewById(R.id.loading_screen_progress_bar);
@@ -131,11 +144,11 @@ public class MainActivity extends AppCompatActivity {
                 new Function<XRayAppInfo, Void>() {
                     @Override
                     public Void apply(XRayAppInfo input) {
-                        appModel.apps.put(input.app, input);
-                        pb.setProgress(appModel.apps.size());
+                        appModel.installedApps.put(input.app, input);
+                        pb.setProgress(appModel.installedApps.size());
 
                         String loading_string =
-                                String.valueOf(appModel.apps.size()) +
+                                String.valueOf(appModel.installedApps.size()) +
                                 " out of " +
                                 String.valueOf(appPackageNames.size());
 
@@ -150,11 +163,23 @@ public class MainActivity extends AppCompatActivity {
         ).execute(appPackageNames.toArray(new String[appPackageNames.size()]));
 
 
+        // Get the Top Ten Apps
+
+
+
         // Index package names
     }
 
     private void launchMainView() {
         setContentView(R.layout.activity_main);
+
+        // Log Installed and Top Ten Apps to the Database.
+        AppsInspector.logInstalledAppInfo(
+                getApplicationContext(),
+                new ArrayList<String>(this.appModel.installedApps.keySet()),
+                this.appModel.topTenAppIDs
+        );
+
         appModel.index();
 
         mDrawerLayout = findViewById(R.id.drawer_layout);
