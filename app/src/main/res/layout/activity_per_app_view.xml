@@ -56,10 +56,32 @@
     </android.support.constraint.ConstraintLayout>
 
 
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorSecondary"
+        android:padding="10dp"
+        >
+
+        <!-- Screen Shots -->
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Screenshots is any exist"/>
+
+    </android.support.constraint.ConstraintLayout>
+
     <!-- Additional Information -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp">
 
         <GridView
             android:id="@+id/additionalInfoGridView"
