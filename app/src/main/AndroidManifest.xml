@@ -19,15 +19,44 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".PerAppViewActivity" />
-        <activity android:name=".additionalInfoActivities.AdditionalInfoCMSActivity" />
-        <activity android:name=".additionalInfoActivities.AdditionalInfoTrackersActivity" />
-        <activity android:name=".additionalInfoActivities.AdditionalInfoMapViewActivity" />
-        <activity android:name=".additionalInfoActivities.AdditionalInfoForParentsActivity" />
+
         <activity
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings"
             android:theme="@style/AppTheme"></activity>
+        <activity android:name=".PerAppViewActivity">
+            <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value=".MainActivity" />
+        </activity>
+        <activity
+            android:name=".additionalInfoActivities.AdditionalInfoCMSActivity"
+            android:launchMode="singleTop">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".PerAppViewActivity" />
+        </activity>
+        <activity
+            android:name=".additionalInfoActivities.AdditionalInfoTrackersActivity"
+            android:launchMode="singleTop">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".PerAppViewActivity" />
+        </activity>
+        <activity
+            android:name=".additionalInfoActivities.AdditionalInfoMapViewActivity"
+            android:launchMode="singleTop">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".PerAppViewActivity" />
+        </activity>
+        <activity
+            android:name=".additionalInfoActivities.AdditionalInfoForParentsActivity"
+            android:launchMode="singleTop">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".PerAppViewActivity" />
+        </activity>
     </application>
 
 </manifest>

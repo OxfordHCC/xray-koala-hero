@@ -1,9 +1,13 @@
 package org.sociam.koalahero.appsInspector;
 
+import android.arch.core.util.Function;
 import android.content.Context;
 
 import org.sociam.koalahero.koala.KoalaData.InteractionRequestDetails;
+import org.sociam.koalahero.trackerMapper.TrackerMapperAPI;
+import org.sociam.koalahero.trackerMapper.TrackerMapperCompany;
 import org.sociam.koalahero.xray.XRayAppInfo;
+import java.util.HashMap;
 
 public class App implements Comparable<App>{
 
@@ -12,6 +16,10 @@ public class App implements Comparable<App>{
     private boolean inTop10;
 
     private java.util.Map<Interval,Long> usageTimes;
+
+
+    // Mapped Company Hostname Information
+    public HashMap<String, TrackerMapperCompany> companies;
 
     public App(XRayAppInfo xRayAppInfo, Context context){
         this.xRayAppInfo = xRayAppInfo;
@@ -23,7 +31,27 @@ public class App implements Comparable<App>{
         usageTimes.put(Interval.DAY,AppsInspector.calculateAppTimeUsage(Interval.DAY, this.xRayAppInfo.app, context));
         usageTimes.put(Interval.WEEK,AppsInspector.calculateAppTimeUsage(Interval.WEEK, this.xRayAppInfo.app, context));
         usageTimes.put(Interval.MONTH,AppsInspector.calculateAppTimeUsage(Interval.MONTH, this.xRayAppInfo.app, context));
+        this.companies = new HashMap<>();
+        this.mapXRayHostNames(context);
+    }
 
+    public void mapXRayHostNames(final Context context) {
+        TrackerMapperAPI TMAPI = TrackerMapperAPI.getInstance(context);
+        TMAPI.executeTrackerMapperRequest(
+                new Function<TrackerMapperCompany, Void>() {
+                    @Override
+                    public Void apply(TrackerMapperCompany input) {
+                        if(!companies.containsKey(input.companyName)) {
+                            companies.put(input.companyName, input);
+                        }
+
+                        companies.get(input.companyName).occurrences += 1;
+
+                        return null;
+                    }
+                },
+            xRayAppInfo.hosts.toArray(new String[xRayAppInfo.hosts.size()])
+        );
     }
 
     public String getPackageName(){

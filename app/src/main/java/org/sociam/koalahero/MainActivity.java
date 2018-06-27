@@ -40,6 +40,8 @@ import org.sociam.koalahero.koala.KoalaData.NoJSONData;
 import org.sociam.koalahero.koala.KoalaAPI;
 import org.sociam.koalahero.koala.KoalaData.RegistrationDetails;
 import org.sociam.koalahero.koala.KoalaData.TokenResponse;
+import org.sociam.koalahero.trackerMapper.TrackerMapperAPI;
+import org.sociam.koalahero.trackerMapper.TrackerMapperCompany;
 import org.sociam.koalahero.xray.XRayAPI;
 import org.sociam.koalahero.xray.XRayAppInfo;
 
@@ -351,9 +353,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void launchPerAppView(String packageName ){
 
+        appModel.selectedAppPackageName = packageName;
         // Launch Per App View Activity
         Intent intent = new Intent(this, PerAppViewActivity.class);
-        intent.putExtra("PACKAGE_NAME", packageName );
+        //intent.putExtra("PACKAGE_NAME", packageName );
+
         startActivity(intent);
     }
 
@@ -363,36 +367,51 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-//    private void foo() {
-//        XRayAPI api = XRayAPI.getInstance();
-//
-//        new XRayAPI.XRayAppData(
-//                new Function<Void, Void>(){
-//                    @Override
-//                    public Void apply(Void nothing){
-//                        return null;
-//                    }
-//                },
-//                new Function<XRayAppInfo, Void>() {
-//                    @Override
-//                    public Void apply(XRayAppInfo appInfo){
-//                        System.out.println(appInfo.appStoreInfo.title);
-//                        return null;
-//                    }
-//                },
-//                getApplicationContext()
-//
-//        ).execute("com.linkedin.android","com.whatsapp","com.tencent.mm");
-//
-//        new CSMAPI.CSMRequest(
-//                new Function<CSMAppInfo, Void>() {
-//                    @Override
-//                    public Void apply(CSMAppInfo csmAppInfo) {
-//                        System.out.println(csmAppInfo.oneLiner);
-//                        return null;
-//                    }
-//                },
-//                getApplicationContext()
-//        ).execute("com.linkedin.android","com.whatsapp","com.tencent.mm");
-//    }
+
+    // Just here to test the API consumers...
+    private void foo() {
+        XRayAPI api = XRayAPI.getInstance();
+
+        new XRayAPI.XRayAppData(
+                new Function<Void, Void>(){
+                    @Override
+                    public Void apply(Void nothing){
+                        return null;
+                    }
+                },
+                new Function<XRayAppInfo, Void>() {
+                    @Override
+                    public Void apply(XRayAppInfo appInfo){
+                        System.out.println(appInfo.appStoreInfo.title);
+                        return null;
+                    }
+                },
+                getApplicationContext()
+
+        ).execute("com.linkedin.android","com.whatsapp","com.tencent.mm");
+
+        new CSMAPI.CSMRequest(
+                new Function<CSMAppInfo, Void>() {
+                    @Override
+                    public Void apply(CSMAppInfo csmAppInfo) {
+                        System.out.println(csmAppInfo.oneLiner);
+                        return null;
+                    }
+                },
+                getApplicationContext()
+        ).execute("com.linkedin.android","com.whatsapp","com.tencent.mm");
+
+        TrackerMapperAPI TMAPI = TrackerMapperAPI.getInstance(getApplicationContext());
+        TMAPI.executeTrackerMapperRequest(
+            new Function<TrackerMapperCompany, Void>() {
+                @Override
+                public Void apply(TrackerMapperCompany input) {
+                    System.out.print(input);
+                    return null;
+                }
+            },
+        "facebook.com"
+        );
+    }
+
 }
