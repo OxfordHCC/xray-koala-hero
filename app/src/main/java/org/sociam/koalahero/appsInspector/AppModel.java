@@ -85,13 +85,16 @@ public class AppModel {
         return inTopTen;
     }
 
-    public void sortTopTen(){
+    public void sortTopTen( Interval interval){
 
         List<App> apps = new ArrayList<App>(installedApps.values());
         Collections.sort(apps);
+        Collections.reverse(apps);
 
-        for( String key: installedApps.keySet())
+        for( String key: installedApps.keySet()) {
             installedApps.get(key).setInTop10(false);
+            installedApps.get(key).setSortMode(interval);
+        }
 
         for( int i = 0 ; i < 10 && i < apps.size(); i++ )
             installedApps.get(apps.get(i).getPackageName()).setInTop10(true);

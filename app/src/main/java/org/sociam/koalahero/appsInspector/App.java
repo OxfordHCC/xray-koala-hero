@@ -11,18 +11,19 @@ public class App implements Comparable<App>{
     private boolean selectedToDisplay;
     private boolean inTop10;
 
-    private long dayUsage;
-    private long weekUsage;
-    private long monthUsage;
+    private java.util.Map<Interval,Long> usageTimes;
 
     public App(XRayAppInfo xRayAppInfo, Context context){
         this.xRayAppInfo = xRayAppInfo;
         this.selectedToDisplay = false;
         this.inTop10 = false;
 
-        this.dayUsage = AppsInspector.calculateAppTimeUsage(Interval.DAY, this.xRayAppInfo.app, context);
-        this.weekUsage = AppsInspector.calculateAppTimeUsage(Interval.WEEK, this.xRayAppInfo.app, context);
-        this.monthUsage = AppsInspector.calculateAppTimeUsage(Interval.MONTH, this.xRayAppInfo.app, context);
+        usageTimes = new java.util.HashMap<Interval,Long>();
+
+        usageTimes.put(Interval.DAY,AppsInspector.calculateAppTimeUsage(Interval.DAY, this.xRayAppInfo.app, context));
+        usageTimes.put(Interval.WEEK,AppsInspector.calculateAppTimeUsage(Interval.WEEK, this.xRayAppInfo.app, context));
+        usageTimes.put(Interval.MONTH,AppsInspector.calculateAppTimeUsage(Interval.MONTH, this.xRayAppInfo.app, context));
+
     }
 
     public String getPackageName(){
@@ -55,36 +56,44 @@ public class App implements Comparable<App>{
 
 
     public long getDayUsage() {
-        return dayUsage;
+        return usageTimes.get(Interval.DAY);
     }
 
     public void setDayUsage(long dayUsage) {
-        this.dayUsage = dayUsage;
+        usageTimes.put(Interval.DAY,dayUsage);
     }
 
     public long getWeekUsage() {
-        return weekUsage;
+        return usageTimes.get(Interval.WEEK);
     }
 
     public void setWeekUsage(long weekUsage) {
-        this.weekUsage = weekUsage;
+        usageTimes.put(Interval.WEEK,weekUsage);
     }
 
     public long getMonthUsage() {
-        return monthUsage;
+        return usageTimes.get(Interval.MONTH);
     }
 
     public void setMonthUsage(long monthUsage) {
-        this.monthUsage = monthUsage;
+        usageTimes.put(Interval.MONTH,monthUsage);
     }
 
+    public long getUsage(Interval inter){
+        return usageTimes.get(inter);
+    }
+
+    private Interval sortBy = Interval.WEEK;
+    public void setSortMode( Interval sort ){
+        sortBy = sort;
+    }
 
     @Override
     public int compareTo(App other){
 
         // Default done by week
-        if( weekUsage < other.getWeekUsage()) return -1;
-        if( weekUsage > other.getWeekUsage()) return 1;
+        if( usageTimes.get(sortBy) < other.getUsage(sortBy)) return -1;
+        if( usageTimes.get(sortBy) > other.getUsage(sortBy)) return 1;
         else return 0;
 
     }

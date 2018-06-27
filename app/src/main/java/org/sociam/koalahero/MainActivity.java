@@ -26,6 +26,7 @@ import android.widget.TextView;
 
 import org.sociam.koalahero.appsInspector.App;
 import org.sociam.koalahero.appsInspector.AppDisplayMode;
+import org.sociam.koalahero.appsInspector.Interval;
 import org.sociam.koalahero.gridAdapters.AppAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -246,7 +247,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // Sort the Top Ten Apps
-        appModel.sortTopTen();
+        appModel.sortTopTen( Interval.WEEK );
 
         // Log Installed and Top Ten Apps to the Database.
         AppsInspector.logInstalledAppInfo(
