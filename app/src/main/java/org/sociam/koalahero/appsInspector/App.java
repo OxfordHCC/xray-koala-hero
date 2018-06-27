@@ -5,7 +5,7 @@ import android.content.Context;
 import org.sociam.koalahero.koala.KoalaData.InteractionRequestDetails;
 import org.sociam.koalahero.xray.XRayAppInfo;
 
-public class App {
+public class App implements Comparable<App>{
 
     private XRayAppInfo xRayAppInfo;
     private boolean selectedToDisplay;
@@ -24,8 +24,6 @@ public class App {
         this.weekUsage = AppsInspector.calculateAppTimeUsage(Interval.WEEK, this.xRayAppInfo.app, context);
         this.monthUsage = AppsInspector.calculateAppTimeUsage(Interval.MONTH, this.xRayAppInfo.app, context);
     }
-
-
 
     public String getPackageName(){
         return xRayAppInfo.app;
@@ -53,5 +51,41 @@ public class App {
 
     public void setInTop10(boolean inTop10) {
         this.inTop10 = inTop10;
+    }
+
+
+    public long getDayUsage() {
+        return dayUsage;
+    }
+
+    public void setDayUsage(long dayUsage) {
+        this.dayUsage = dayUsage;
+    }
+
+    public long getWeekUsage() {
+        return weekUsage;
+    }
+
+    public void setWeekUsage(long weekUsage) {
+        this.weekUsage = weekUsage;
+    }
+
+    public long getMonthUsage() {
+        return monthUsage;
+    }
+
+    public void setMonthUsage(long monthUsage) {
+        this.monthUsage = monthUsage;
+    }
+
+
+    @Override
+    public int compareTo(App other){
+
+        // Default done by week
+        if( weekUsage < other.getWeekUsage()) return -1;
+        if( weekUsage > other.getWeekUsage()) return 1;
+        else return 0;
+
     }
 }

@@ -8,6 +8,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -81,6 +83,21 @@ public class AppModel {
                 inTopTen.add(key);
         }
         return inTopTen;
+    }
+
+    public void sortTopTen(){
+
+        List<App> apps = new ArrayList<App>(installedApps.values());
+        Collections.sort(apps);
+
+        for( String key: installedApps.keySet())
+            installedApps.get(key).setInTop10(false);
+
+        for( int i = 0 ; i < 10 && i < apps.size(); i++ )
+            installedApps.get(apps.get(i).getPackageName()).setInTop10(true);
+
+
+
     }
 
     // === Index for Grid ===

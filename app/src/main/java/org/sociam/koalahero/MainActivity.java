@@ -2,6 +2,8 @@ package org.sociam.koalahero;
 
 import android.app.Activity;
 import android.app.AppOpsManager;
+import android.app.usage.UsageStats;
+import android.app.usage.UsageStatsManager;
 import android.arch.core.util.Function;
 import android.content.Context;
 import android.content.Intent;
@@ -41,6 +43,8 @@ import org.sociam.koalahero.xray.XRayAPI;
 import org.sociam.koalahero.xray.XRayAppInfo;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -233,8 +237,6 @@ public class MainActivity extends AppCompatActivity {
         ).execute(appPackageNames.toArray(new String[appPackageNames.size()]));
 
 
-        // Get the Top Ten Apps
-
 
 
         // Index package names
@@ -242,6 +244,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void launchMainView() {
         setContentView(R.layout.activity_main);
+
+        // Sort the Top Ten Apps
+        appModel.sortTopTen();
 
         // Log Installed and Top Ten Apps to the Database.
         AppsInspector.logInstalledAppInfo(
