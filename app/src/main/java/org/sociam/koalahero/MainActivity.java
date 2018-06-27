@@ -285,13 +285,13 @@ public class MainActivity extends AppCompatActivity {
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
 
                         //menuItem.setChecked(true);
-                        mDrawerLayout.closeDrawers();
+
 
                         switch (menuItem.getItemId()) {
 
-//                            case R.id.nav_view_all:
-//                                appModel.setDisplayMode(AppDisplayMode.All);
-//                                break;
+                            case R.id.nav_app_selection:
+                                launchAppSelector();
+                                break;
 //                            case R.id.nav_view_selected:
 //                                appModel.setDisplayMode(AppDisplayMode.SELECTED);
 //                                break;
@@ -299,6 +299,8 @@ public class MainActivity extends AppCompatActivity {
 //                                appModel.setDisplayMode(AppDisplayMode.TOP_TEN);
 //                                break;
                         }
+
+                        mDrawerLayout.closeDrawers();
 
                         return true;
                     }
@@ -366,6 +368,10 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(intent,SETTINGS_REQUEST_CODE);
     }
 
+    private void launchAppSelector(){
+        Intent intent = new Intent( this ,AppSelectorActivity.class);
+        startActivity(intent);
+    }
 
 
     // Just here to test the API consumers...

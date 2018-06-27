@@ -49,6 +49,10 @@ public class AppModel {
     private String[] appIndex;
 
 
+    public List<App> getAllInstalledApps(){
+        return new ArrayList<App>(installedApps.values());
+    }
+
     public App getApp( String packageName ){
         return installedApps.get(packageName);
     }
