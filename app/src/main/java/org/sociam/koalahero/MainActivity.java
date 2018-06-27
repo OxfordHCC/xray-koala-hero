@@ -14,6 +14,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -44,6 +45,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     public static final int APP_USAGE_PERMISSION_INTENT = 1;
+    public static final int SETTINGS_REQUEST_CODE = 298;
 
     public static String PACKAGE_NAME;
     private AppModel appModel;
@@ -101,6 +103,26 @@ public class MainActivity extends AppCompatActivity {
             else{
                 // how to handle not granting permission????
             }
+        } else if (requestCode == SETTINGS_REQUEST_CODE) {
+
+            if( resultCode == RESULT_OK) {
+
+                // Handle Display Mode
+                String displayMode = data.getStringExtra("DISPLAY_MODE");
+                switch (displayMode){
+                    case "TOP_10":
+                        appModel.setDisplayMode(AppDisplayMode.TOP_TEN);
+                        break;
+                    case "ALL":
+                        appModel.setDisplayMode(AppDisplayMode.All);
+                        break;
+                    case "SELECTED":
+                        appModel.setDisplayMode(AppDisplayMode.SELECTED);
+                        break;
+                }
+                updateGridView();
+            }
+
         }
     }
     private void startApp() {
@@ -229,13 +251,14 @@ public class MainActivity extends AppCompatActivity {
         );
 
 
+        appModel.loadDisplayMode( this );
         appModel.index();
-        appModel.setDisplayMode(AppDisplayMode.All);
+        //appModel.setDisplayMode(AppDisplayMode.All);
 
-        appModel.getApp(0).setInTop10(true);
-        appModel.getApp(1).setInTop10(true);
-        appModel.getApp(2).setInTop10(true);
-        appModel.setDisplayMode(AppDisplayMode.TOP_TEN);
+//        appModel.getApp(0).setInTop10(true);
+//        appModel.getApp(1).setInTop10(true);
+//        appModel.getApp(2).setInTop10(true);
+
 
         mDrawerLayout = findViewById(R.id.drawer_layout);
 
@@ -244,23 +267,21 @@ public class MainActivity extends AppCompatActivity {
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
-                        // set item as selected to persist highlight
+
                         //menuItem.setChecked(true);
-                        // close drawer when item is tapped
                         mDrawerLayout.closeDrawers();
 
-                        System.out.print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + menuItem);
                         switch (menuItem.getItemId()) {
 
-                            case R.id.nav_view_all:
-                                appModel.setDisplayMode(AppDisplayMode.All);
-                                break;
-                            case R.id.nav_view_selected:
-                                appModel.setDisplayMode(AppDisplayMode.SELECTED);
-                                break;
-                            case R.id.nav_view_top_10:
-                                appModel.setDisplayMode(AppDisplayMode.TOP_TEN);
-                                break;
+//                            case R.id.nav_view_all:
+//                                appModel.setDisplayMode(AppDisplayMode.All);
+//                                break;
+//                            case R.id.nav_view_selected:
+//                                appModel.setDisplayMode(AppDisplayMode.SELECTED);
+//                                break;
+//                            case R.id.nav_view_top_10:
+//                                appModel.setDisplayMode(AppDisplayMode.TOP_TEN);
+//                                break;
                         }
 
                         updateGridView();
@@ -284,7 +305,7 @@ public class MainActivity extends AppCompatActivity {
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
-                displayPerAppView(appModel.getAppPackageName(position));
+                launchPerAppView(appModel.getAppPackageName(position));
             }
         });
     }
@@ -295,17 +316,28 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 mDrawerLayout.openDrawer(GravityCompat.START);
+                return true;
+            case R.id.settings:
+                launchSettings();
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
 
-    private void displayPerAppView(String packageName ){
+    private void launchPerAppView(String packageName ){
 
         // Launch Per App View Activity
         Intent intent = new Intent(this, PerAppViewActivity.class);
@@ -313,38 +345,42 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-
-
-    private void foo() {
-        XRayAPI api = XRayAPI.getInstance();
-
-        new XRayAPI.XRayAppData(
-                new Function<Void, Void>(){
-                    @Override
-                    public Void apply(Void nothing){
-                        return null;
-                    }
-                },
-                new Function<XRayAppInfo, Void>() {
-                    @Override
-                    public Void apply(XRayAppInfo appInfo){
-                        System.out.println(appInfo.appStoreInfo.title);
-                        return null;
-                    }
-                },
-                getApplicationContext()
-
-        ).execute("com.linkedin.android","com.whatsapp","com.tencent.mm");
-
-        new CSMAPI.CSMRequest(
-                new Function<CSMAppInfo, Void>() {
-                    @Override
-                    public Void apply(CSMAppInfo csmAppInfo) {
-                        System.out.println(csmAppInfo.oneLiner);
-                        return null;
-                    }
-                },
-                getApplicationContext()
-        ).execute("com.linkedin.android","com.whatsapp","com.tencent.mm");
+    private void launchSettings(){
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivityForResult(intent,SETTINGS_REQUEST_CODE);
     }
+
+
+//    private void foo() {
+//        XRayAPI api = XRayAPI.getInstance();
+//
+//        new XRayAPI.XRayAppData(
+//                new Function<Void, Void>(){
+//                    @Override
+//                    public Void apply(Void nothing){
+//                        return null;
+//                    }
+//                },
+//                new Function<XRayAppInfo, Void>() {
+//                    @Override
+//                    public Void apply(XRayAppInfo appInfo){
+//                        System.out.println(appInfo.appStoreInfo.title);
+//                        return null;
+//                    }
+//                },
+//                getApplicationContext()
+//
+//        ).execute("com.linkedin.android","com.whatsapp","com.tencent.mm");
+//
+//        new CSMAPI.CSMRequest(
+//                new Function<CSMAppInfo, Void>() {
+//                    @Override
+//                    public Void apply(CSMAppInfo csmAppInfo) {
+//                        System.out.println(csmAppInfo.oneLiner);
+//                        return null;
+//                    }
+//                },
+//                getApplicationContext()
+//        ).execute("com.linkedin.android","com.whatsapp","com.tencent.mm");
+//    }
 }
