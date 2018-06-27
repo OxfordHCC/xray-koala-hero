@@ -125,6 +125,21 @@ public class MainActivity extends AppCompatActivity {
                         appModel.setDisplayMode(AppDisplayMode.SELECTED);
                         break;
                 }
+                // Handle Sort Mode
+                String sortMode = data.getStringExtra("SORT_MODE");
+                switch (sortMode){
+                    case "DAY":
+                        appModel.setSortMode(Interval.DAY);
+                        break;
+                    case "WEEK":
+                        appModel.setSortMode(Interval.WEEK);
+                        break;
+                    case "MONTH":
+                        appModel.setSortMode(Interval.MONTH);
+                        break;
+                    default:
+                }
+
                 updateGridView();
             }
 
@@ -246,9 +261,6 @@ public class MainActivity extends AppCompatActivity {
     private void launchMainView() {
         setContentView(R.layout.activity_main);
 
-        // Sort the Top Ten Apps
-        appModel.sortTopTen( Interval.WEEK );
-
         // Log Installed and Top Ten Apps to the Database.
         AppsInspector.logInstalledAppInfo(
                 getApplicationContext(),
@@ -259,11 +271,7 @@ public class MainActivity extends AppCompatActivity {
 
         appModel.loadDisplayMode( this );
         appModel.index();
-        //appModel.setDisplayMode(AppDisplayMode.All);
 
-//        appModel.getApp(0).setInTop10(true);
-//        appModel.getApp(1).setInTop10(true);
-//        appModel.getApp(2).setInTop10(true);
 
 
         mDrawerLayout = findViewById(R.id.drawer_layout);
@@ -290,8 +298,6 @@ public class MainActivity extends AppCompatActivity {
 //                                break;
                         }
 
-                        updateGridView();
-
                         return true;
                     }
                 });
@@ -307,13 +313,13 @@ public class MainActivity extends AppCompatActivity {
 
 
         GridView gridview = (GridView) findViewById(R.id.appGridView);
-        gridview.setAdapter(new AppAdapter(this,appModel));
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
                 launchPerAppView(appModel.getAppPackageName(position));
             }
         });
+        updateGridView();
     }
 
     public void updateGridView(){

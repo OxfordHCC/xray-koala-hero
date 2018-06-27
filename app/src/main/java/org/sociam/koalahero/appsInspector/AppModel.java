@@ -85,21 +85,32 @@ public class AppModel {
         return inTopTen;
     }
 
-    public void sortTopTen( Interval interval){
+    private Interval sortMode = Interval.WEEK;
+
+    public void setSortMode(Interval sortMode) {
+        this.sortMode = sortMode;
+        sortTopTen();
+        saveSortMode();
+    }
+    public Interval getSortMode(){
+        return sortMode;
+    }
+
+    private void sortTopTen(){
+
+        for( String key: installedApps.keySet()) {
+            installedApps.get(key).setInTop10(false);
+            installedApps.get(key).setSortMode(sortMode);
+        }
 
         List<App> apps = new ArrayList<App>(installedApps.values());
         Collections.sort(apps);
         Collections.reverse(apps);
 
-        for( String key: installedApps.keySet()) {
-            installedApps.get(key).setInTop10(false);
-            installedApps.get(key).setSortMode(interval);
-        }
-
         for( int i = 0 ; i < 10 && i < apps.size(); i++ )
             installedApps.get(apps.get(i).getPackageName()).setInTop10(true);
 
-
+        index();
 
     }
 
@@ -131,12 +142,13 @@ public class AppModel {
 
 
     public static final String APP_DISPLAY_MODE_FILENAME = "displayMode.dat";
+    public static final String APP_SORT_MODE_FILENAME = "sortMode.dat";
     Context context;
 
     public void loadDisplayMode( Context context){
         this.context = context;
-        File file = new File(context.getFilesDir(), APP_DISPLAY_MODE_FILENAME);
 
+        File file = new File(context.getFilesDir(), APP_DISPLAY_MODE_FILENAME);
         if( file.exists()){
 
             try {
@@ -153,13 +165,41 @@ public class AppModel {
             saveDisplayMode();
         }
 
+        file = new File(context.getFilesDir(), APP_SORT_MODE_FILENAME);
+        if( file.exists()){
+
+            try {
+                FileInputStream in = new FileInputStream(file);
+                int disByte = in.read();
+                this.setSortMode(Interval.values()[disByte]);
+                in.close();
+            } catch (IOException e){
+                e.printStackTrace();
+            }
+
+        } else {
+            this.setSortMode(Interval.WEEK);
+            saveSortMode();
+        }
+
     }
 
-    private void saveDisplayMode(){
+    private void saveDisplayMode() {
         File file = new File(context.getFilesDir(), APP_DISPLAY_MODE_FILENAME);
         try {
             FileOutputStream out = new FileOutputStream(file);
             out.write(getDisplayMode().ordinal());
+            out.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void saveSortMode(){
+        File file = new File(context.getFilesDir(), APP_SORT_MODE_FILENAME);
+        try {
+            FileOutputStream out = new FileOutputStream(file);
+            out.write(getSortMode().ordinal());
             out.close();
         } catch (IOException e){
             e.printStackTrace();

@@ -83,7 +83,7 @@ public class App implements Comparable<App>{
         return usageTimes.get(inter);
     }
 
-    private Interval sortBy = Interval.WEEK;
+    private Interval sortBy;
     public void setSortMode( Interval sort ){
         sortBy = sort;
     }
