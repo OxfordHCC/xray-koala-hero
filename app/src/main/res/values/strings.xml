@@ -35,7 +35,7 @@
     <string name="view_selected">Selected</string>
     <string name="view_top_10">Top 10 By Use</string>
 
-    <string name="sort_radio_group">Get Top 10 Apps By</string>
+    <string name="sort_radio_group">Get Top 10 Used Apps By</string>
     <string name="sort_daily">Day</string>
     <string name="sort_weekly">Week</string>
     <string name="sort_monthly">Month</string>
@@ -58,7 +58,6 @@
     <string name="language_guidance_title">Inappropriate Language</string>
     <string name="violence_guidance_title">Violent Content</string>
     <string name="education_guidance_title">Educational Content</string>
-
 
 
 
