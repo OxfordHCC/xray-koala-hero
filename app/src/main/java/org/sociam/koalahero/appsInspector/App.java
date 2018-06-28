@@ -3,6 +3,8 @@ package org.sociam.koalahero.appsInspector;
 import android.arch.core.util.Function;
 import android.content.Context;
 
+import org.sociam.koalahero.csm.CSMAPI;
+import org.sociam.koalahero.csm.CSMAppInfo;
 import org.sociam.koalahero.koala.KoalaData.InteractionRequestDetails;
 import org.sociam.koalahero.trackerMapper.TrackerMapperAPI;
 import org.sociam.koalahero.trackerMapper.TrackerMapperCompany;
@@ -15,11 +17,14 @@ public class App implements Comparable<App>{
     private boolean selectedToDisplay;
     private boolean inTop10;
 
+    // Day, Week, and Monthly Usage times for this app.
     private java.util.Map<Interval,Long> usageTimes;
-
 
     // Mapped Company Hostname Information
     public HashMap<String, TrackerMapperCompany> companies;
+
+    // Information scraped from Common Sense Media
+    private CSMAppInfo csmAppInfo;
 
     public App(XRayAppInfo xRayAppInfo, Context context){
         this.xRayAppInfo = xRayAppInfo;
@@ -32,7 +37,25 @@ public class App implements Comparable<App>{
         usageTimes.put(Interval.WEEK,AppsInspector.calculateAppTimeUsage(Interval.WEEK, this.xRayAppInfo.app, context));
         usageTimes.put(Interval.MONTH,AppsInspector.calculateAppTimeUsage(Interval.MONTH, this.xRayAppInfo.app, context));
         this.companies = new HashMap<>();
+
         this.mapXRayHostNames(context);
+        this.requestCSMInformation(context);
+
+    }
+
+    public void requestCSMInformation(Context context) {
+        CSMAPI csmapi = CSMAPI.getInstance(context);
+        csmapi.exectuteCSMRequest(
+                new Function<CSMAppInfo, Void>() {
+                    @Override
+                    public Void apply(CSMAppInfo input) {
+                        csmAppInfo = input;
+                        return null;
+                    }
+                },
+                xRayAppInfo.app
+        );
+
     }
 
     public void mapXRayHostNames(final Context context) {
@@ -53,6 +76,11 @@ public class App implements Comparable<App>{
             xRayAppInfo.hosts.toArray(new String[xRayAppInfo.hosts.size()])
         );
     }
+
+    public CSMAppInfo getCsmAppInfo() {
+        return csmAppInfo;
+    }
+
 
     public String getPackageName(){
         return xRayAppInfo.app;

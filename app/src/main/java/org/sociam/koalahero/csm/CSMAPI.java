@@ -14,19 +14,30 @@ import java.net.URL;
 
 public class CSMAPI {
     private static CSMAPI INSTANCE;
+    private Context context;
 
     private CSMAPI() {
 
     }
 
-    public static CSMAPI getInstance() {
+    private CSMAPI(Context context) {
+        this.context = context;
+    }
+
+    public static CSMAPI getInstance(Context context) {
         if (INSTANCE == null) {
-            return new CSMAPI();
+            return new CSMAPI(context);
         }
         return INSTANCE;
     }
 
-    public static class CSMRequest extends AsyncTask<String, CSMAppInfo, Void> {
+
+    public void exectuteCSMRequest(Function<CSMAppInfo, Void> onProgressFunction, String... packageNames) {
+        new CSMRequest(onProgressFunction, context).execute(packageNames);
+    }
+
+
+    private class CSMRequest extends AsyncTask<String, CSMAppInfo, Void> {
         private Function<CSMAppInfo, Void> progressFunction = null;
         private Context context = null;
 

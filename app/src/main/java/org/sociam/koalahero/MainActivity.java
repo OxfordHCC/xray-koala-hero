@@ -390,7 +390,8 @@ public class MainActivity extends AppCompatActivity {
 
         ).execute("com.linkedin.android","com.whatsapp","com.tencent.mm");
 
-        new CSMAPI.CSMRequest(
+        CSMAPI csmapi = CSMAPI.getInstance(getApplicationContext());
+        csmapi.exectuteCSMRequest(
                 new Function<CSMAppInfo, Void>() {
                     @Override
                     public Void apply(CSMAppInfo csmAppInfo) {
@@ -398,8 +399,8 @@ public class MainActivity extends AppCompatActivity {
                         return null;
                     }
                 },
-                getApplicationContext()
-        ).execute("com.linkedin.android","com.whatsapp","com.tencent.mm");
+                "com.linkedin.android","com.whatsapp","com.tencent.mm"
+        );
 
         TrackerMapperAPI TMAPI = TrackerMapperAPI.getInstance(getApplicationContext());
         TMAPI.executeTrackerMapperRequest(

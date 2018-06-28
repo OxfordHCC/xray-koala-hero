@@ -12,11 +12,17 @@ import android.widget.TextView;
 
 import org.sociam.koalahero.R;
 import org.sociam.koalahero.appsInspector.AppModel;
+import org.sociam.koalahero.csm.CSMAPI;
+import org.sociam.koalahero.csm.CSMAppInfo;
 import org.sociam.koalahero.xray.XRayAppInfo;
 
 public class AdditionalInfoCMSActivity extends AppCompatActivity {
 
     private String packageName;
+    private CSMAPI csmapi;
+    private AppModel appModel;
+    private XRayAppInfo xRayAppInfo;
+    private CSMAppInfo csmAppInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,25 +35,33 @@ public class AdditionalInfoCMSActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         final Context context = this;
-        AppModel appModel = AppModel.getInstance();
+
+        this.appModel = AppModel.getInstance();
+        this.csmapi = CSMAPI.getInstance(getApplicationContext());
+
         this.packageName = appModel.selectedAppPackageName;
-        XRayAppInfo xRayAppInfo = appModel.getApp(packageName).getxRayAppInfo();
+        this.xRayAppInfo = appModel.getApp(packageName).getxRayAppInfo();
+        this.csmAppInfo = appModel.getApp(packageName).getCsmAppInfo();
 
         TextView titleTextView = (TextView) findViewById(R.id.per_app_title);
-        TextView summaryTextView = (TextView) findViewById(R.id.per_app_summary);
+        TextView oneLinerTextView = (TextView) findViewById(R.id.oneLinerTextView);
         ImageView iconImageView = (ImageView) findViewById(R.id.per_app_icon);
 
+        // Set information read from server.
+        oneLinerTextView.setText(this.csmAppInfo.oneLiner);
+
+        // Set information read from device
         try {
             ApplicationInfo appInfo = getPackageManager().getApplicationInfo(xRayAppInfo.app,0);
 
             // App Name
             titleTextView.setText(getPackageManager().getApplicationLabel(appInfo));
-            summaryTextView.setText(xRayAppInfo.appStoreInfo.summary);
             // App Icon
             Drawable icon = getPackageManager().getApplicationIcon(appInfo);
             iconImageView.setImageDrawable(icon);
-
         }
-        catch (PackageManager.NameNotFoundException e) { e.printStackTrace(); }
+        catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 }
