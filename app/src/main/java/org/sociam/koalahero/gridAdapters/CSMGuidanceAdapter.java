@@ -58,7 +58,7 @@ public class CSMGuidanceAdapter extends ArrayAdapter {
                 return this.context.getResources().getString(R.string.violence_guidance_title);
 
             case EDUCATION:
-                return this.context.getResources().getString(R.string.consumerism_guidance_title);
+                return this.context.getResources().getString(R.string.education_guidance_title);
 
             case CONSUMERISM:
                 return this.context.getResources().getString(R.string.consumerism_guidance_title);
