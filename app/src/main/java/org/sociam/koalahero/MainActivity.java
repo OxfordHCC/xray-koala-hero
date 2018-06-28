@@ -384,7 +384,9 @@ public class MainActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
 
-        if( appModel.isReady() ) updateGridView();
+        if( appModel.isReady() ) {
+            updateGridView();
+        }
     }
 
     // Just here to test the API consumers...

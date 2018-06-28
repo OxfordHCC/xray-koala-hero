@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.sociam.koalahero.R;
+import org.sociam.koalahero.appsInspector.App;
 import org.sociam.koalahero.appsInspector.AppModel;
 import org.sociam.koalahero.xray.XRayAppInfo;
 
@@ -30,8 +31,6 @@ public class AppAdapter extends BaseAdapter {
         layoutInflator = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.appModel = appModel;
 
-        System.out.println("No. Apps to Display In Grid: " + appModel.getNumberAppsToDisplay());
-
     }
 
     public int getCount() {
@@ -47,8 +46,8 @@ public class AppAdapter extends BaseAdapter {
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
-
-        XRayAppInfo xRayAppInfo = appModel.getApp(position).getxRayAppInfo();
+        App app = appModel.getApp(position);
+        XRayAppInfo xRayAppInfo = app.getxRayAppInfo();
 
         ImageView appIconView;
         TextView appNameView;
