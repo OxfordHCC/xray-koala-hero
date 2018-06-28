@@ -27,4 +27,6 @@
         />
 
 
+    <include layout="@layout/recording_dot" />
+
 </android.support.constraint.ConstraintLayout>

@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import org.sociam.koalahero.R;
 import org.sociam.koalahero.appsInspector.AppModel;
+import org.sociam.koalahero.audio.AudioRecorder;
 import org.sociam.koalahero.xray.XRayAppInfo;
 
 public class AdditionalInfoCMSActivity extends AppCompatActivity {
@@ -27,6 +28,8 @@ public class AdditionalInfoCMSActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Common Sense Media");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        AudioRecorder.getINSTANCE(this).updateRecordingUI(this);
 
         final Context context = this;
         AppModel appModel = AppModel.getInstance();

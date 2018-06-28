@@ -19,6 +19,7 @@ import org.sociam.koalahero.additionalInfoActivities.AdditionalInfoForParentsAct
 import org.sociam.koalahero.additionalInfoActivities.AdditionalInfoMapViewActivity;
 import org.sociam.koalahero.additionalInfoActivities.AdditionalInfoTrackersActivity;
 import org.sociam.koalahero.appsInspector.App;
+import org.sociam.koalahero.audio.AudioRecorder;
 import org.sociam.koalahero.gridAdapters.AdditionalInformationAdapter;
 import org.sociam.koalahero.gridAdapters.AppAdapter;
 import org.sociam.koalahero.appsInspector.AppModel;
@@ -46,6 +47,8 @@ public class PerAppViewActivity extends AppCompatActivity {
         Intent prevInent = getIntent();
 
         AppModel appModel = AppModel.getInstance();
+
+        AudioRecorder.getINSTANCE(this).updateRecordingUI(this);
 
         this.packageName = appModel.selectedAppPackageName;
         App app = appModel.getApp(packageName);

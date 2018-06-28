@@ -18,6 +18,7 @@ import org.sociam.koalahero.additionalInfoActivities.AdditionalInfoForParentsAct
 import org.sociam.koalahero.additionalInfoActivities.AdditionalInfoMapViewActivity;
 import org.sociam.koalahero.additionalInfoActivities.AdditionalInfoTrackersActivity;
 import org.sociam.koalahero.appsInspector.AppModel;
+import org.sociam.koalahero.audio.AudioRecorder;
 import org.sociam.koalahero.gridAdapters.AdditionalInformationAdapter;
 import org.sociam.koalahero.gridAdapters.SelectionAdapter;
 
@@ -38,6 +39,8 @@ public class AppSelectorActivity extends AppCompatActivity {
 
         appModel = AppModel.getInstance();
         final Context context = this;
+
+        AudioRecorder.getINSTANCE(this).updateRecordingUI(this);
 
         updateGrid();
 

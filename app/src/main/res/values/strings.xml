@@ -27,6 +27,9 @@
     <string name="drawer_header_title">Header Title</string>
     <string name="nav_app_selection">Select Apps</string>
 
+    <string name="recording_not_active">Click to Record</string>
+    <string name="recording_active">Recording Audio...</string>
+
     <!-- Settings -->
     <string name="title_activity_settings">Settings</string>
 
