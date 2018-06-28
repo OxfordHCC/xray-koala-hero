@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 public class AppModel {
 
@@ -48,6 +49,9 @@ public class AppModel {
     // List of orderd package names. This can be used to convert the index into the package name
     private String[] appIndex;
 
+    public Set<String> getInstalledAppsKeys() {
+        return this.installedApps.keySet();
+    }
 
     public App getApp( String packageName ){
         return installedApps.get(packageName);

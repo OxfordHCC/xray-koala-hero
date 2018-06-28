@@ -96,7 +96,7 @@ public class PerAppViewActivity extends AppCompatActivity {
         additionalInfoCategories.add("Experts Say");
         additionalInfoCategories.add("Trackers");
         additionalInfoCategories.add("MapView");
-        additionalInfoCategories.add("For Parents");
+        additionalInfoCategories.add("ForParents");
 
 
         final String[] categories = new String[additionalInfoCategories.size()];
@@ -119,7 +119,7 @@ public class PerAppViewActivity extends AppCompatActivity {
                 boolean start = true;
 
                 switch( chosen ){
-                    case "CMS":
+                    case "Experts Say":
                         intent = new Intent(context, AdditionalInfoCMSActivity.class);
                         break;
                     case "Trackers":

@@ -144,6 +144,7 @@ public class CSMJsonParser {
                     jsonReader.skipValue();
                 }
             }
+            jsonReader.endObject();
         }
         catch(IOException exc) {
 

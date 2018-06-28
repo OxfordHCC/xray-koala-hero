@@ -38,25 +38,12 @@ public class App implements Comparable<App>{
         usageTimes.put(Interval.MONTH,AppsInspector.calculateAppTimeUsage(Interval.MONTH, this.xRayAppInfo.app, context));
         this.companies = new HashMap<>();
 
+        this.csmAppInfo = new CSMAppInfo();
         this.mapXRayHostNames(context);
-        this.requestCSMInformation(context);
 
     }
 
-    public void requestCSMInformation(Context context) {
-        CSMAPI csmapi = CSMAPI.getInstance(context);
-        csmapi.exectuteCSMRequest(
-                new Function<CSMAppInfo, Void>() {
-                    @Override
-                    public Void apply(CSMAppInfo input) {
-                        csmAppInfo = input;
-                        return null;
-                    }
-                },
-                xRayAppInfo.app
-        );
 
-    }
 
     public void mapXRayHostNames(final Context context) {
         TrackerMapperAPI TMAPI = TrackerMapperAPI.getInstance(context);
@@ -81,6 +68,9 @@ public class App implements Comparable<App>{
         return csmAppInfo;
     }
 
+    public void setCsmAppInfo(CSMAppInfo info) {
+        this.csmAppInfo = info;
+    }
 
     public String getPackageName(){
         return xRayAppInfo.app;

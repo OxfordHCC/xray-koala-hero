@@ -32,19 +32,22 @@ public class CSMAPI {
     }
 
 
-    public void exectuteCSMRequest(Function<CSMAppInfo, Void> onProgressFunction, String... packageNames) {
-        new CSMRequest(onProgressFunction, context).execute(packageNames);
+    public void exectuteCSMRequest(Function<Void, Void> completionFunction, Function<CSMAppInfo, Void> onProgressFunction, String... packageNames) {
+        new CSMRequest(completionFunction, onProgressFunction, context).execute(packageNames);
     }
 
 
     private class CSMRequest extends AsyncTask<String, CSMAppInfo, Void> {
         private Function<CSMAppInfo, Void> progressFunction = null;
+        private Function<Void, Void> completionFunction = null;
+
         private Context context = null;
 
         private CSMRequest(){}
 
-        public CSMRequest(Function<CSMAppInfo, Void> progressFunction, Context context) {
+        public CSMRequest(Function<Void, Void> completionFunction, Function<CSMAppInfo, Void> progressFunction, Context context) {
             this.progressFunction = progressFunction;
+            this.completionFunction = completionFunction;
             this.context = context;
         }
 
@@ -77,6 +80,12 @@ public class CSMAPI {
         protected void onProgressUpdate(CSMAppInfo... apps) {
             super.onProgressUpdate(apps);
             this.progressFunction.apply(apps[0]);
+        }
+
+        @Override
+        protected void onPostExecute(Void thisIsVoid) {
+            super.onPostExecute(thisIsVoid);
+            this.completionFunction.apply(null);
         }
 
         @Override
