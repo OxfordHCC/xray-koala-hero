@@ -3,9 +3,11 @@ package org.sociam.koalahero;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.support.v4.view.GravityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -44,7 +46,7 @@ public class AppSelectorActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
                 appModel.getAllInstalledApps().get(position).setIsSelectedToDisplay(!appModel.getAllInstalledApps().get(position).isSelectedToDisplay());
-                sa.updateSelection();
+                sa.notifyDataSetChanged();
             }
         });
     }
@@ -55,8 +57,13 @@ public class AppSelectorActivity extends AppCompatActivity {
         gridview.setAdapter(sa);
     }
 
-    public void checkBoxChanged( int position){
-        appModel.getAllInstalledApps().get(position).setIsSelectedToDisplay(!appModel.getAllInstalledApps().get(position).isSelectedToDisplay());
-        sa.updateSelection();
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+               finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

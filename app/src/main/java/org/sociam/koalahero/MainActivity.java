@@ -273,7 +273,7 @@ public class MainActivity extends AppCompatActivity {
 
         appModel.loadDisplayMode( this );
         appModel.index();
-
+        appModel.setReady();
 
 
         mDrawerLayout = findViewById(R.id.drawer_layout);
@@ -323,12 +323,15 @@ public class MainActivity extends AppCompatActivity {
                 launchPerAppView(appModel.getAppPackageName(position));
             }
         });
-        updateGridView();
+
+        appAdapter = new AppAdapter(this,appModel);
+        gridview.setAdapter(appAdapter);
+
     }
 
+    private AppAdapter appAdapter;
     public void updateGridView(){
-        GridView gridview = (GridView) findViewById(R.id.appGridView);
-        gridview.setAdapter(new AppAdapter(this,appModel));
+        appAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -373,6 +376,16 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if( appModel.isReady() ){
+            updateGridView();
+        }
+
+    }
 
     // Just here to test the API consumers...
     private void foo() {

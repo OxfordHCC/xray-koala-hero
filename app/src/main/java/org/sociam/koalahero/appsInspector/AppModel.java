@@ -39,6 +39,16 @@ public class AppModel {
     }
 
 
+    private boolean appModelReady = false;
+
+    public boolean isReady() {
+        return appModelReady;
+    }
+
+    public void setReady(){
+        appModelReady = true;
+    }
+
     // List of all apps
     private HashMap<String, App> installedApps = new HashMap<String,App>();
 

@@ -97,8 +97,7 @@ public class SelectionAdapter extends BaseAdapter {
             Drawable icon = context.getPackageManager().getApplicationIcon(appInfo);
             appIconView.setImageDrawable(icon);
 
-            // ticked
-            // Image
+            // Tick
             selectedIcon =  (ImageView) grid.findViewById(R.id.selected_icon);
 
             if( app.isSelectedToDisplay() )
@@ -107,28 +106,11 @@ public class SelectionAdapter extends BaseAdapter {
                 selectedIcon.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_check_box_outline_blank));
 
 
-            // Checkbox
-//            selectedBox = (CheckBox) grid.findViewById(R.id.selectionCheckBox);
-//            selectedBox.setChecked(app.isSelectedToDisplay());
-//
-//            selectedBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//
-//                    activity.checkBoxChanged(position);
-//
-//                }
-//            });
-
-
         }
         catch (PackageManager.NameNotFoundException e) { e.printStackTrace(); }
 
 
         return grid;
-    }
-
-    public void updateSelection(){
-        notifyDataSetChanged();
     }
 
 }
