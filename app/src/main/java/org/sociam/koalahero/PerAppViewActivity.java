@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import org.sociam.koalahero.additionalInfoActivities.AdditionalInfoCMSActivity;
@@ -62,15 +63,17 @@ public class PerAppViewActivity extends AppCompatActivity {
         ImageView iconImageView = (ImageView) findViewById(R.id.per_app_icon);
         TextView developerName = (TextView) findViewById(R.id.developerNameTextView);
         TextView downloadsNumberTextView = (TextView) findViewById(R.id.installsTextView);
-        TextView ratingNumberTextView = (TextView) findViewById(R.id.ratingsValueTextView);
+        RatingBar ratingBar = (RatingBar) findViewById(R.id.appDetailRatingBar);
+
+        // Set Number of stars.
+        ratingBar.setNumStars(5);
+        ratingBar.setMax(5);
+        ratingBar.setStepSize(0.01f);
+        ratingBar.setRating((float) xRayAppInfo.appStoreInfo.rating);
 
         // set Downloads
         Double installs = 0.5*(xRayAppInfo.appStoreInfo.maxInstalls + xRayAppInfo.appStoreInfo.minInstalls);
         downloadsNumberTextView.setText(NumberFormat.getNumberInstance(Locale.ENGLISH).format(installs));
-
-        // Set rating
-        DecimalFormat df = new DecimalFormat("#.#");
-        ratingNumberTextView.setText(df.format(xRayAppInfo.appStoreInfo.rating));
 
         // Set Developer name.
         developerName.setText(xRayAppInfo.developerInfo.devName);
