@@ -229,7 +229,7 @@ public class MainActivity extends AppCompatActivity {
                         pb.setProgress(pb.getProgress() + 1);
 
                         String loading_string =
-                                String.valueOf("CSM Info: " + appModel.getTotalNumberApps()) +
+                                String.valueOf("CSM Info: " + pb.getProgress()) +
                                         " out of " +
                                         String.valueOf(appModel.getInstalledAppsKeys().size());
 

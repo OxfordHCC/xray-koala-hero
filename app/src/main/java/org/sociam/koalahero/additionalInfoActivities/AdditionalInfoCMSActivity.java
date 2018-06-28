@@ -1,20 +1,30 @@
 package org.sociam.koalahero.additionalInfoActivities;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.sociam.koalahero.R;
 import org.sociam.koalahero.appsInspector.AppModel;
 import org.sociam.koalahero.csm.CSMAPI;
 import org.sociam.koalahero.csm.CSMAppInfo;
+import org.sociam.koalahero.csm.CSMParentalGuidance;
+import org.sociam.koalahero.gridAdapters.CSMGuidanceAdapter;
 import org.sociam.koalahero.xray.XRayAppInfo;
+
+import java.util.ArrayList;
 
 public class AdditionalInfoCMSActivity extends AppCompatActivity {
 
@@ -49,6 +59,29 @@ public class AdditionalInfoCMSActivity extends AppCompatActivity {
 
         // Set information read from server.
         oneLinerTextView.setText(this.csmAppInfo.oneLiner);
+
+        final ArrayList<CSMParentalGuidance.Guidance> guidances = new ArrayList<>(this.csmAppInfo.parentalGuidances.guidanceCategories.values());
+        CSMGuidanceAdapter adapter = new CSMGuidanceAdapter(this, guidances);
+        ListView guidanceListView = findViewById(R.id.guidanceRatingsListView);
+        guidanceListView.setAdapter(adapter);
+
+        guidanceListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                AlertDialog alertDialog = new AlertDialog.Builder(AdditionalInfoCMSActivity.this).create();
+                alertDialog.setTitle("Additional Information");
+                alertDialog.setMessage(guidances.get(position).description);
+                alertDialog.setIcon(R.drawable.ic_menu);
+
+                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+
+                alertDialog.show();
+            }
+        });
 
         // Set information read from device
         try {

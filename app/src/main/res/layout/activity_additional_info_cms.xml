@@ -18,6 +18,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <android.support.constraint.ConstraintLayout
+        android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorAccent"
@@ -41,10 +42,8 @@
             android:id="@+id/per_app_icon"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:layout_marginBottom="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -68,6 +67,61 @@
             android:text="One liner description."
             app:layout_constraintBottom_toBottomOf="@+id/per_app_icon"
             app:layout_constraintStart_toEndOf="@+id/per_app_icon" />
+
+        <TextView
+            android:id="@+id/ageRatingLabelTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/age_rating_label"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/per_app_icon" />
+
+        <TextView
+            android:id="@+id/ageRatingValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="Age 16 +"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@+id/ageRatingLabelTextView"
+            app:layout_constraintStart_toEndOf="@+id/ageRatingLabelTextView"
+            app:layout_constraintTop_toTopOf="@+id/ageRatingLabelTextView" />
+
+        <TextView
+            android:id="@+id/csmRatingValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="4"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@+id/csmRatingLabel"
+            app:layout_constraintStart_toEndOf="@+id/csmRatingLabel"
+            app:layout_constraintTop_toTopOf="@+id/csmRatingLabel" />
+
+        <TextView
+            android:id="@+id/csmRatingLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/csm_rating_label"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ageRatingLabelTextView" />
     </android.support.constraint.ConstraintLayout>
+
+    <ListView
+        android:id="@+id/guidanceRatingsListView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
 
 </android.support.constraint.ConstraintLayout>
