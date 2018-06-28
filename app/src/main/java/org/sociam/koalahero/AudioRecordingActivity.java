@@ -3,12 +3,16 @@ package org.sociam.koalahero;
 import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
 import org.sociam.koalahero.audio.AudioRecorder;
+import org.sociam.koalahero.gridAdapters.AudioFilesAdapter;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,6 +20,10 @@ import java.io.InputStream;
 public class AudioRecordingActivity extends AppCompatActivity {
 
     AudioRecorder audioRecorder;
+
+    private RecyclerView mRecyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +50,18 @@ public class AudioRecordingActivity extends AppCompatActivity {
 
             }
         });
+
+        mRecyclerView = (RecyclerView) findViewById(R.id.file_list);
+        //mRecyclerView.setHasFixedSize(true);
+
+        // Use Linear Layout Manager
+        mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+
+        mAdapter = new AudioFilesAdapter( audioRecorder.getRecordingDir(), this);
+        mRecyclerView.setAdapter(mAdapter);
     }
 
 

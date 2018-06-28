@@ -55,7 +55,7 @@ public class AudioRecorder {
 
         recorder = new MediaRecorder();
 
-        String filePath = recordingDir.getPath() + File.separator + "recording-" + System.currentTimeMillis();
+        String filePath = recordingDir.getPath() + File.separator + "recording-" + System.currentTimeMillis() + ".mp4";
         files.add(filePath);
 
         try {
@@ -140,6 +140,10 @@ public class AudioRecorder {
                 }
             });
         }
+    }
+
+    public File getRecordingDir(){
+        return recordingDir;
     }
 
 }
