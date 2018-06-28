@@ -59,6 +59,7 @@ public class AdditionalInfoCMSActivity extends AppCompatActivity {
         ImageView iconImageView = (ImageView) findViewById(R.id.per_app_icon);
         TextView ageRatingTextView = (TextView) findViewById(R.id.ageRatingValue);
         RatingBar csmRatingBar = (RatingBar) findViewById(R.id.csmRatingBar);
+        TextView developerTextView = (TextView) findViewById(R.id.csmDeveloperTextView);
 
 
         // Set Rating bar values
@@ -66,6 +67,9 @@ public class AdditionalInfoCMSActivity extends AppCompatActivity {
         csmRatingBar.setMax(5);
         csmRatingBar.setStepSize(0.01f);
         csmRatingBar.setRating((float) this.csmAppInfo.CSMRating);
+
+        // set developer name
+        developerTextView.setText(xRayAppInfo.developerInfo.devName);
 
         // Set Age Rating
         ageRatingTextView.setText(this.csmAppInfo.ageRating);

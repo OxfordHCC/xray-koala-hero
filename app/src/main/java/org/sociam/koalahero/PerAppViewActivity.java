@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
+import android.media.Rating;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -64,6 +65,10 @@ public class PerAppViewActivity extends AppCompatActivity {
         TextView developerName = (TextView) findViewById(R.id.developerNameTextView);
         TextView downloadsNumberTextView = (TextView) findViewById(R.id.installsTextView);
         RatingBar ratingBar = (RatingBar) findViewById(R.id.appDetailRatingBar);
+        TextView pegiTextView = (TextView) findViewById(R.id.pegiRatingTextView);
+
+        // Set Pegi Rating
+        pegiTextView.setText(xRayAppInfo.appStoreInfo.contentRating);
 
         // Set Number of stars.
         ratingBar.setNumStars(5);
