@@ -4,13 +4,18 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
+import android.os.DropBoxManager;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.sociam.koalahero.AppSelectorActivity;
 import org.sociam.koalahero.R;
 import org.sociam.koalahero.appsInspector.App;
 import org.sociam.koalahero.appsInspector.AppModel;
@@ -25,13 +30,28 @@ public class SelectionAdapter extends BaseAdapter {
     private LayoutInflater layoutInflator;
 
     private AppModel appModel;
+    private AppSelectorActivity activity;
 
-    public SelectionAdapter(Context c, AppModel appModel) {
+    public SelectionAdapter(Context c, AppModel appModel, AppSelectorActivity activity ) {
         context = c;
         layoutInflator = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.appModel = appModel;
+        this.activity = activity;
 
+        try {
+            imsTick = context.getAssets().open("circleTick.png");
+            dTick = Drawable.createFromStream(imsTick, null);
+            imsNoTick = context.getAssets().open("circleNoTick.png");
+            dNoTick = Drawable.createFromStream(imsNoTick, null);
+        } catch (IOException e){
+            e.printStackTrace();
+        }
     }
+
+    private InputStream imsTick;
+    private InputStream imsNoTick;
+    private Drawable dTick;
+    private Drawable dNoTick;
 
     public int getCount() {
         return appModel.getTotalNumberApps();
@@ -45,13 +65,14 @@ public class SelectionAdapter extends BaseAdapter {
         return position;
     }
 
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
 
         App app = appModel.getAllInstalledApps().get(position);
         XRayAppInfo xRayAppInfo = app.getxRayAppInfo();
 
         ImageView appIconView, selectedIcon;
         TextView appNameView;
+        CheckBox selectedBox;
 
         View grid;
         if( convertView == null) {
@@ -80,22 +101,34 @@ public class SelectionAdapter extends BaseAdapter {
             // Image
             selectedIcon =  (ImageView) grid.findViewById(R.id.selected_icon);
 
-            try {
-                InputStream ims;
-                if( app.isSelectedToDisplay() ) ims = context.getAssets().open( "circleTick.png");
-                else ims = context.getAssets().open( "circleNoTick.png");
-                Drawable d = Drawable.createFromStream(ims, null);
-                selectedIcon.setImageDrawable(d);
-                ims.close();
-            } catch(IOException e) {
-                e.printStackTrace();
-            }
+            if( app.isSelectedToDisplay() )
+                selectedIcon.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_check_box_checked));
+            else
+                selectedIcon.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_check_box_outline_blank));
+
+
+            // Checkbox
+//            selectedBox = (CheckBox) grid.findViewById(R.id.selectionCheckBox);
+//            selectedBox.setChecked(app.isSelectedToDisplay());
+//
+//            selectedBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//
+//                    activity.checkBoxChanged(position);
+//
+//                }
+//            });
+
 
         }
         catch (PackageManager.NameNotFoundException e) { e.printStackTrace(); }
 
 
         return grid;
+    }
+
+    public void updateSelection(){
+        notifyDataSetChanged();
     }
 
 }

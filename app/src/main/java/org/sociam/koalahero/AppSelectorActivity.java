@@ -2,6 +2,7 @@ package org.sociam.koalahero;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -21,6 +22,7 @@ import org.sociam.koalahero.gridAdapters.SelectionAdapter;
 public class AppSelectorActivity extends AppCompatActivity {
 
    AppModel appModel;
+   SelectionAdapter sa;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,17 +43,20 @@ public class AppSelectorActivity extends AppCompatActivity {
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
-                System.out.println("Position: " + position);
-
                 appModel.getAllInstalledApps().get(position).setIsSelectedToDisplay(!appModel.getAllInstalledApps().get(position).isSelectedToDisplay());
-
-                updateGrid();
+                sa.updateSelection();
             }
         });
     }
 
     private void updateGrid(){
         GridView gridview = (GridView) findViewById(R.id.selectionGridView);
-        gridview.setAdapter(new SelectionAdapter( this, appModel));
+        sa = new SelectionAdapter( this, appModel, this);
+        gridview.setAdapter(sa);
+    }
+
+    public void checkBoxChanged( int position){
+        appModel.getAllInstalledApps().get(position).setIsSelectedToDisplay(!appModel.getAllInstalledApps().get(position).isSelectedToDisplay());
+        sa.updateSelection();
     }
 }
