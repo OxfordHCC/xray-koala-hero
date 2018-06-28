@@ -66,6 +66,7 @@ public class XRayAppStoreInfo {
         this.genre = "";
         this.contentRating = "";
 
+
     }
     XRayAppStoreInfo(String title, String summary) {
         this.title = title;
