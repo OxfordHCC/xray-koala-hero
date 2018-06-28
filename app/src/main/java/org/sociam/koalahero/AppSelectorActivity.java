@@ -46,6 +46,7 @@ public class AppSelectorActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
                 appModel.getAllInstalledApps().get(position).setIsSelectedToDisplay(!appModel.getAllInstalledApps().get(position).isSelectedToDisplay());
+                appModel.saveSelectedApps();
                 sa.notifyDataSetChanged();
             }
         });

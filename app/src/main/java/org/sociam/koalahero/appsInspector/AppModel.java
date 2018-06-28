@@ -6,12 +6,16 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Scanner;
+import java.util.Set;
 
 public class AppModel {
 
@@ -40,14 +44,8 @@ public class AppModel {
 
 
     private boolean appModelReady = false;
-
-    public boolean isReady() {
-        return appModelReady;
-    }
-
-    public void setReady(){
-        appModelReady = true;
-    }
+    public boolean isReady() { return appModelReady; }
+    public void setReady(){ appModelReady = true; }
 
     // List of all apps
     private HashMap<String, App> installedApps = new HashMap<String,App>();
@@ -161,11 +159,13 @@ public class AppModel {
 
     public static final String APP_DISPLAY_MODE_FILENAME = "displayMode.dat";
     public static final String APP_SORT_MODE_FILENAME = "sortMode.dat";
+    public static final String SELECTED_APPS_FILENAME = "selectedApps.dat";
     Context context;
 
-    public void loadDisplayMode( Context context){
+    public void loadData(Context context){
         this.context = context;
 
+        // =======
         File file = new File(context.getFilesDir(), APP_DISPLAY_MODE_FILENAME);
         if( file.exists()){
 
@@ -183,6 +183,7 @@ public class AppModel {
             saveDisplayMode();
         }
 
+        // =======
         file = new File(context.getFilesDir(), APP_SORT_MODE_FILENAME);
         if( file.exists()){
 
@@ -200,6 +201,26 @@ public class AppModel {
             saveSortMode();
         }
 
+        // =======
+
+        file = new File(context.getFilesDir(), SELECTED_APPS_FILENAME);
+        if( file.exists()){
+
+            try {
+                Scanner s = new Scanner(file);
+                while( s.hasNext() ){
+                    String name = s.nextLine();
+                    installedApps.get(name).setIsSelectedToDisplay(true);
+                }
+
+                s.close();
+            } catch (IOException e ){
+                e.printStackTrace();
+            }
+
+        } else {
+            saveSelectedApps();
+        }
     }
 
     private void saveDisplayMode() {
@@ -223,6 +244,24 @@ public class AppModel {
             e.printStackTrace();
         }
 
+    }
+
+    public void saveSelectedApps(){
+        File file = new File(context.getFilesDir(), SELECTED_APPS_FILENAME);
+        try {
+            PrintWriter pw = new PrintWriter(file);
+            int n = 0;
+            for( String key : installedApps.keySet() ){
+                if( installedApps.get( key ).isSelectedToDisplay() ){
+                    if( n > 0 ) pw.write("\n");
+                    pw.write(key);
+                }
+                n++;
+            }
+            pw.close();
+        } catch (IOException e) {
+
+        }
     }
 
 }

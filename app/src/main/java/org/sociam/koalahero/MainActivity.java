@@ -2,8 +2,6 @@ package org.sociam.koalahero;
 
 import android.app.Activity;
 import android.app.AppOpsManager;
-import android.app.usage.UsageStats;
-import android.app.usage.UsageStatsManager;
 import android.arch.core.util.Function;
 import android.content.Context;
 import android.content.Intent;
@@ -46,8 +44,6 @@ import org.sociam.koalahero.xray.XRayAPI;
 import org.sociam.koalahero.xray.XRayAppInfo;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -271,7 +267,7 @@ public class MainActivity extends AppCompatActivity {
         );
 
 
-        appModel.loadDisplayMode( this );
+        appModel.loadData( this );
         appModel.index();
         appModel.setReady();
 
@@ -327,10 +323,17 @@ public class MainActivity extends AppCompatActivity {
         appAdapter = new AppAdapter(this,appModel);
         gridview.setAdapter(appAdapter);
 
+        updateGridView();
+
     }
 
     private AppAdapter appAdapter;
     public void updateGridView(){
+
+        TextView message = (TextView) findViewById( R.id.noAppsMessage );
+        if( appAdapter.getCount() == 0 ) message.setVisibility(View.VISIBLE);
+        else message.setVisibility(View.INVISIBLE);
+
         appAdapter.notifyDataSetChanged();
     }
 
@@ -381,10 +384,7 @@ public class MainActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
 
-        if( appModel.isReady() ){
-            updateGridView();
-        }
-
+        if( appModel.isReady() ) updateGridView();
     }
 
     // Just here to test the API consumers...
