@@ -93,6 +93,27 @@ public class AppModel {
         return new ArrayList<>(installedApps.keySet());
     }
 
+    // === Mics ===
+
+    public int countApps( AppDisplayMode adm ){
+        if( adm == AppDisplayMode.All){
+            return installedApps.size();
+        } else if ( adm == AppDisplayMode.TOP_TEN || adm == AppDisplayMode.SELECTED ){
+
+            int n = 0;
+            for( String key: installedApps.keySet() ){
+
+                App a = installedApps.get(key);
+                if( (adm == AppDisplayMode.TOP_TEN && a.isInTop10()) || (adm == AppDisplayMode.SELECTED && a.isSelectedToDisplay()) ){
+                    n++;
+                }
+
+            }
+            return n;
+        }
+        return 0;
+    }
+
     // === Top 10 Apps ===
 
     public ArrayList<String> getTopTen(){

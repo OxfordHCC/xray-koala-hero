@@ -3,6 +3,8 @@ package org.sociam.koalahero;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.os.Handler;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,15 +13,18 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.TextView;
 
 import org.sociam.koalahero.R;
 import org.sociam.koalahero.additionalInfoActivities.AdditionalInfoCMSActivity;
 import org.sociam.koalahero.additionalInfoActivities.AdditionalInfoForParentsActivity;
 import org.sociam.koalahero.additionalInfoActivities.AdditionalInfoMapViewActivity;
 import org.sociam.koalahero.additionalInfoActivities.AdditionalInfoTrackersActivity;
+import org.sociam.koalahero.appsInspector.AppDisplayMode;
 import org.sociam.koalahero.appsInspector.AppModel;
 import org.sociam.koalahero.gridAdapters.AdditionalInformationAdapter;
 import org.sociam.koalahero.gridAdapters.SelectionAdapter;
+import org.w3c.dom.Text;
 
 public class AppSelectorActivity extends AppCompatActivity {
 
@@ -37,26 +42,61 @@ public class AppSelectorActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         appModel = AppModel.getInstance();
+        appModel.setDisplayMode(AppDisplayMode.SELECTED);
         final Context context = this;
 
-        updateGrid();
+
 
         GridView gridview = (GridView) findViewById(R.id.selectionGridView);
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
-                appModel.getAllInstalledApps().get(position).setIsSelectedToDisplay(!appModel.getAllInstalledApps().get(position).isSelectedToDisplay());
-                appModel.saveSelectedApps();
-                appModel.index();
-                sa.notifyDataSetChanged();
+
+                boolean newToDisplay = !appModel.getAllInstalledApps().get(position).isSelectedToDisplay();
+
+                // Only allow 10 to be selected at once
+                if( appModel.countApps(AppDisplayMode.SELECTED) < 10 || !newToDisplay) {
+                    appModel.getAllInstalledApps().get(position).setIsSelectedToDisplay(newToDisplay);
+                    appModel.saveSelectedApps();
+                    appModel.index();
+
+                    updateGrid();
+                } else {
+
+                    // Color change to indicate selection already full
+                    ConstraintLayout cl = (ConstraintLayout) findViewById(R.id.info_bar);
+                    cl.setBackgroundColor(getResources().getColor(R.color.colorRed));
+                    TextView num = (TextView) findViewById(R.id.number_selected_indicator);
+                    num.setTextColor(getResources().getColor(R.color.colorWhite));
+
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            ConstraintLayout cl = (ConstraintLayout) findViewById(R.id.info_bar);
+                            cl.setBackgroundColor(getResources().getColor(R.color.colorSecondary));
+                            TextView num = (TextView) findViewById(R.id.number_selected_indicator);
+                            num.setTextColor(getResources().getColor(R.color.colorAccent));
+                        }
+                    }, 150);
+
+
+                }
             }
         });
+
+        sa = new SelectionAdapter( this, appModel, this);
+        gridview.setAdapter(sa);
+
+        updateGrid();
     }
 
     private void updateGrid(){
-        GridView gridview = (GridView) findViewById(R.id.selectionGridView);
-        sa = new SelectionAdapter( this, appModel, this);
-        gridview.setAdapter(sa);
+
+        int count = appModel.countApps(AppDisplayMode.SELECTED);
+        TextView num = (TextView) findViewById(R.id.number_selected_indicator);
+        num.setText( count + " of 10 Selected");
+
+        sa.notifyDataSetChanged();
     }
 
 
