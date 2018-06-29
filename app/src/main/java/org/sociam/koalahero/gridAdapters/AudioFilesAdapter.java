@@ -17,6 +17,7 @@ import org.sociam.koalahero.audio.AudioRecording;
 
 import java.io.File;
 import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.Date;
 
 public class AudioFilesAdapter extends RecyclerView.Adapter<AudioFilesAdapter.ViewHolder>{
@@ -65,10 +66,15 @@ public class AudioFilesAdapter extends RecyclerView.Adapter<AudioFilesAdapter.Vi
 
         final AudioRecording ar = audioFileStore.get(position);
 
-        Timestamp stamp = new Timestamp(ar.getTimeStarted());
-        Date date = new Date(stamp.getTime());
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(ar.getTimeStarted());
 
-        holder.fileTime.setText( date + "" );
+        holder.fileTime.setText( String.format("%02d", calendar.get(Calendar.HOUR_OF_DAY))
+                + ":" + String.format("%02d", calendar.get(Calendar.MINUTE))
+                + " " + String.format("%02d", calendar.get(Calendar.DAY_OF_MONTH))
+                + "/" + String.format("%02d", calendar.get(Calendar.MONTH))
+                + "/" + calendar.get(Calendar.YEAR));
+
         holder.audioDuration.setText( secondsToTime(ar.getDuration()/1000) );
 
         holder.playButton.setOnClickListener(new View.OnClickListener() {

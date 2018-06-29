@@ -25,7 +25,7 @@ public class AudioFileStore {
     private List<AudioRecording> files = new ArrayList<AudioRecording>();
 
     public void addNew( AudioRecording ar ){
-        files.add(ar);
+        files.add(0,ar);
     }
 
     public int getNumberFiles(){

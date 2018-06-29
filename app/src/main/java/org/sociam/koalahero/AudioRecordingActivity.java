@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import org.sociam.koalahero.audio.AudioRecorder;
 import org.sociam.koalahero.gridAdapters.AudioFilesAdapter;
@@ -48,7 +49,7 @@ public class AudioRecordingActivity extends AppCompatActivity {
                 audioRecorder.toggleRecording();
 
                 updateRecordingButton();
-                mAdapter.notifyDataSetChanged();
+                updateScreen();
 
             }
         });
@@ -60,7 +61,7 @@ public class AudioRecordingActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 audioRecorder.deleteRecordings();
-                mAdapter.notifyDataSetChanged();
+                updateScreen();
 
             }
         });
@@ -79,8 +80,22 @@ public class AudioRecordingActivity extends AppCompatActivity {
 
         mAdapter = new AudioFilesAdapter( audioRecorder, this);
         mRecyclerView.setAdapter(mAdapter);
+        updateScreen();
     }
 
+
+    public void updateScreen(){
+
+        TextView noFilesMessage = (TextView) findViewById(R.id.no_recordings_message);
+        if( audioRecorder.getAudioFileStore().getNumberFiles() ==0 ){
+            noFilesMessage.setVisibility(View.VISIBLE);
+        } else {
+            noFilesMessage.setVisibility(View.INVISIBLE);
+        }
+
+        mAdapter.notifyDataSetChanged();
+        updateRecordingButton();
+    }
 
     public void updateRecordingButton(){
 
