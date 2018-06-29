@@ -30,6 +30,8 @@ public class AudioRecorder {
         return INSTANCE;
     }
 
+    private AudioFileStore audioFileStore;
+
     private File recordingDir;
     private Context context;
 
@@ -39,16 +41,23 @@ public class AudioRecorder {
         recordingDir = new File(con.getFilesDir().getPath() + "/recordings/" );
         if( !recordingDir.exists()) recordingDir.mkdir();
 
-
+        audioFileStore = AudioFileStore.getInstance();
     }
 
     private MediaRecorder recorder;
 
-    private List<String> files = new ArrayList<String>();
-
     private boolean isRecording = false;
     public boolean isRecording() {
         return isRecording;
+    }
+
+    private AudioRecording currentRecording = null;
+
+
+    public boolean toggleRecording(){
+        if( isRecording ) return stopRecording();
+        else return startRecording();
+
     }
 
     public boolean startRecording(){
@@ -56,7 +65,8 @@ public class AudioRecorder {
         recorder = new MediaRecorder();
 
         String filePath = recordingDir.getPath() + File.separator + "recording-" + System.currentTimeMillis() + ".mp4";
-        files.add(filePath);
+        currentRecording = new AudioRecording(filePath);
+        currentRecording.setTimeStarted(System.currentTimeMillis());
 
         try {
             recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
@@ -78,21 +88,42 @@ public class AudioRecorder {
         return true;
     }
 
-    public boolean toggleRecording(){
-        if( isRecording ) return stopRecording();
-        else return startRecording();
 
-    }
 
     public boolean stopRecording(){
-        isRecording = false;
-        recorder.stop();
-        recorder.release();
-        Toast.makeText(context, "Audio Recording Stopped", Toast.LENGTH_SHORT).show();
+        try {
+            isRecording = false;
+            recorder.stop();
+            recorder.release();
+            Toast.makeText(context, "Audio Recording Stopped", Toast.LENGTH_SHORT).show();
 
-        audioPlayer(files.get(files.size()-1));
 
-        return true;
+            // Set duration of audio
+            try {
+                MediaPlayer mp = new MediaPlayer();
+                mp.setDataSource(currentRecording.getFilePath());
+                mp.prepare();
+
+                int duration = mp.getDuration();
+                currentRecording.setDuration(duration);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            // Add to file store
+            audioFileStore.addNew(currentRecording);
+
+            //audioPlayer(files.get(files.size()-1));
+
+
+            currentRecording = null;
+
+            return true;
+        } catch ( Exception e ){
+            e.printStackTrace();
+            return false;
+        }
     }
 
 
@@ -118,6 +149,7 @@ public class AudioRecorder {
         Toast.makeText(context, "Audio Recordings Deleted", Toast.LENGTH_SHORT).show();
     }
 
+    // Show red dot in corner if recording
     public void updateRecordingUI(Activity activity){
 
         ImageView recordingDot = (ImageView) activity.findViewById(R.id.recording_dot);
@@ -146,4 +178,7 @@ public class AudioRecorder {
         return recordingDir;
     }
 
+    public AudioFileStore getAudioFileStore() {
+        return audioFileStore;
+    }
 }

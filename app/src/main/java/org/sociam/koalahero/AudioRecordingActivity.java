@@ -4,6 +4,7 @@ import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -47,6 +48,19 @@ public class AudioRecordingActivity extends AppCompatActivity {
                 audioRecorder.toggleRecording();
 
                 updateRecordingButton();
+                mAdapter.notifyDataSetChanged();
+
+            }
+        });
+
+
+        ImageView deleteButton = (ImageView) findViewById(R.id.delete_all_button);
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                audioRecorder.deleteRecordings();
+                mAdapter.notifyDataSetChanged();
 
             }
         });
@@ -59,8 +73,11 @@ public class AudioRecordingActivity extends AppCompatActivity {
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(this,
+                DividerItemDecoration.VERTICAL));
 
-        mAdapter = new AudioFilesAdapter( audioRecorder.getRecordingDir(), this);
+
+        mAdapter = new AudioFilesAdapter( audioRecorder, this);
         mRecyclerView.setAdapter(mAdapter);
     }
 

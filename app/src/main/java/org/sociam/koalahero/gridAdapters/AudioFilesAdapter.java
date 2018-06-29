@@ -6,38 +6,45 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.sociam.koalahero.AudioRecordingActivity;
 import org.sociam.koalahero.R;
+import org.sociam.koalahero.audio.AudioFileStore;
+import org.sociam.koalahero.audio.AudioRecorder;
+import org.sociam.koalahero.audio.AudioRecording;
 
 import java.io.File;
+import java.sql.Timestamp;
+import java.util.Date;
 
 public class AudioFilesAdapter extends RecyclerView.Adapter<AudioFilesAdapter.ViewHolder>{
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
         public TextView fileTime, audioDuration;
+        public ImageView playButton;
 
         public ViewHolder(View v) {
             super(v);
 
             fileTime = (TextView) v.findViewById(R.id.file_time);
             audioDuration = (TextView) v.findViewById(R.id.audio_duration);
-
-
+            playButton = (ImageView) v.findViewById(R.id.play_button);
         }
 
     }
 
 
-
     private AudioRecordingActivity activity;
-    private File recordingsDirectory;
+    private AudioFileStore audioFileStore;
+    private AudioRecorder audioRecorder;
 
     // constructor
-    public AudioFilesAdapter(File directory , AudioRecordingActivity act) {
-        this.recordingsDirectory = directory;
+    public AudioFilesAdapter(AudioRecorder audioRecorder , AudioRecordingActivity act) {
+        this.audioFileStore = audioRecorder.getAudioFileStore();
+        this.audioRecorder = audioRecorder;
         this.activity = act;
     }
 
@@ -56,27 +63,33 @@ public class AudioFilesAdapter extends RecyclerView.Adapter<AudioFilesAdapter.Vi
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
 
-        holder.fileTime.setText( recordingsDirectory.listFiles()[position].getName() );
+        final AudioRecording ar = audioFileStore.get(position);
 
-        MediaPlayer mp = new MediaPlayer();
+        Timestamp stamp = new Timestamp(ar.getTimeStarted());
+        Date date = new Date(stamp.getTime());
 
-        try {
-            mp.setDataSource(recordingsDirectory.listFiles()[position].getAbsolutePath());
+        holder.fileTime.setText( date + "" );
+        holder.audioDuration.setText( secondsToTime(ar.getDuration()/1000) );
 
-            int duration = mp.getDuration();
-            System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + duration);
-            holder.audioDuration.setText( duration );
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        holder.playButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
-
+                audioRecorder.audioPlayer( ar.getFilePath() );
+            }
+        });
 
     }
 
     // Return the size of dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return recordingsDirectory.listFiles().length;
+        return audioFileStore.getNumberFiles();
+    }
+
+
+    public String secondsToTime( int seconds ){
+
+        return (seconds/60) + ":" + String.format("%02d", (seconds%60));
     }
 }
