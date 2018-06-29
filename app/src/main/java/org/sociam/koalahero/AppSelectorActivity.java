@@ -1,11 +1,8 @@
 package org.sociam.koalahero;
 
 import android.content.Context;
-import android.content.Intent;
-import android.os.Build;
 import android.os.Handler;
 import android.support.constraint.ConstraintLayout;
-import android.support.v4.view.GravityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -15,16 +12,9 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.TextView;
 
-import org.sociam.koalahero.R;
-import org.sociam.koalahero.additionalInfoActivities.AdditionalInfoCMSActivity;
-import org.sociam.koalahero.additionalInfoActivities.AdditionalInfoForParentsActivity;
-import org.sociam.koalahero.additionalInfoActivities.AdditionalInfoMapViewActivity;
-import org.sociam.koalahero.additionalInfoActivities.AdditionalInfoTrackersActivity;
 import org.sociam.koalahero.appsInspector.AppDisplayMode;
 import org.sociam.koalahero.appsInspector.AppModel;
-import org.sociam.koalahero.gridAdapters.AdditionalInformationAdapter;
 import org.sociam.koalahero.gridAdapters.SelectionAdapter;
-import org.w3c.dom.Text;
 
 public class AppSelectorActivity extends AppCompatActivity {
 
@@ -56,7 +46,7 @@ public class AppSelectorActivity extends AppCompatActivity {
 
                 // Only allow 10 to be selected at once
                 if( appModel.countApps(AppDisplayMode.SELECTED) < 10 || !newToDisplay) {
-                    appModel.getAllInstalledApps().get(position).setIsSelectedToDisplay(newToDisplay);
+                    appModel.getAllInstalledApps().get(position).setSelectedToDisplay(newToDisplay);
                     appModel.saveSelectedApps();
                     appModel.index();
 

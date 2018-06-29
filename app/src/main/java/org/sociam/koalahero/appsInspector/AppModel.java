@@ -4,13 +4,10 @@ import android.content.Context;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -235,7 +232,7 @@ public class AppModel {
                 while( s.hasNext() ){
                     String name = s.nextLine();
                     if( installedApps.get(name) != null)
-                        installedApps.get(name).setIsSelectedToDisplay(true);
+                        installedApps.get(name).setSelectedToDisplay(true);
                 }
 
                 s.close();
@@ -244,6 +241,13 @@ public class AppModel {
             }
 
         } else {
+            // Set default Apps
+            for( String key : installedApps.keySet()){
+
+                App app = installedApps.get(key);
+                app.setSelectedToDisplay(app.isInTop10());
+
+            }
             saveSelectedApps();
         }
     }

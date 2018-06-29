@@ -80,13 +80,10 @@ public class App implements Comparable<App>{
         return selectedToDisplay;
     }
 
-    public void setIsSelectedToDisplay( boolean display){
+    public void setSelectedToDisplay(boolean display){
         this.selectedToDisplay = display;
     }
 
-    public void setSelectedToDisplay( boolean selectedToDisplay){
-        this.selectedToDisplay = selectedToDisplay;
-    }
 
     public XRayAppInfo getxRayAppInfo() {
         return xRayAppInfo;
@@ -98,31 +95,6 @@ public class App implements Comparable<App>{
 
     public void setInTop10(boolean inTop10) {
         this.inTop10 = inTop10;
-    }
-
-
-    public long getDayUsage() {
-        return usageTimes.get(Interval.DAY);
-    }
-
-    public void setDayUsage(long dayUsage) {
-        usageTimes.put(Interval.DAY,dayUsage);
-    }
-
-    public long getWeekUsage() {
-        return usageTimes.get(Interval.WEEK);
-    }
-
-    public void setWeekUsage(long weekUsage) {
-        usageTimes.put(Interval.WEEK,weekUsage);
-    }
-
-    public long getMonthUsage() {
-        return usageTimes.get(Interval.MONTH);
-    }
-
-    public void setMonthUsage(long monthUsage) {
-        usageTimes.put(Interval.MONTH,monthUsage);
     }
 
     public long getUsage(Interval inter){
