@@ -151,6 +151,21 @@ public class AppModel {
 
     }
 
+    private String[] alphabeticalIndex;
+    public void createAlphabeticalIndex(){
+        List<App> apps = new ArrayList<App>(installedApps.values());
+        Collections.sort(apps, new App());
+
+        alphabeticalIndex = new String[ apps.size() ];
+        for( int i = 0 ; i < alphabeticalIndex.length; i++ ){
+            alphabeticalIndex[i] = apps.get(i).getxRayAppInfo().app;
+        }
+    }
+
+    public String[] getAlphabeticalIndex(){
+        return alphabeticalIndex;
+    }
+
     // === Index for Grid ===
     public void index(){
 

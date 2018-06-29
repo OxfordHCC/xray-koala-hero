@@ -9,9 +9,11 @@ import org.sociam.koalahero.koala.KoalaData.InteractionRequestDetails;
 import org.sociam.koalahero.trackerMapper.TrackerMapperAPI;
 import org.sociam.koalahero.trackerMapper.TrackerMapperCompany;
 import org.sociam.koalahero.xray.XRayAppInfo;
+
+import java.util.Comparator;
 import java.util.HashMap;
 
-public class App implements Comparable<App>{
+public class App implements Comparable<App>,Comparator<App> {
 
     private XRayAppInfo xRayAppInfo;
     private boolean selectedToDisplay;
@@ -25,6 +27,10 @@ public class App implements Comparable<App>{
 
     // Information scraped from Common Sense Media
     private CSMAppInfo csmAppInfo;
+
+
+    public App(){
+    }
 
     public App(XRayAppInfo xRayAppInfo, Context context){
         this.xRayAppInfo = xRayAppInfo;
@@ -106,13 +112,23 @@ public class App implements Comparable<App>{
         sortBy = sort;
     }
 
+    // Sort by usage time
     @Override
     public int compareTo(App other){
 
-        // Default done by week
         if( usageTimes.get(sortBy) < other.getUsage(sortBy)) return -1;
         if( usageTimes.get(sortBy) > other.getUsage(sortBy)) return 1;
         else return 0;
 
+        // USAGE: Collections.sort(list);
     }
+
+    // Sort by title
+    @Override
+    public int compare(App d, App d1) {
+        return d.xRayAppInfo.title.compareTo(d1.xRayAppInfo.title);
+
+        // USAGE: Collections.sort(list, new App());
+    }
+
 }

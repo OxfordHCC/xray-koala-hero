@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.TextView;
 
+import org.sociam.koalahero.appsInspector.App;
 import org.sociam.koalahero.appsInspector.AppDisplayMode;
 import org.sociam.koalahero.appsInspector.AppModel;
 import org.sociam.koalahero.gridAdapters.SelectionAdapter;
@@ -42,11 +43,13 @@ public class AppSelectorActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
 
-                boolean newToDisplay = !appModel.getAllInstalledApps().get(position).isSelectedToDisplay();
+                App app = appModel.getApp(appModel.getAlphabeticalIndex()[position]);
+
+                boolean newToDisplay = !app.isSelectedToDisplay();
 
                 // Only allow 10 to be selected at once
                 if( appModel.countApps(AppDisplayMode.SELECTED) < 10 || !newToDisplay) {
-                    appModel.getAllInstalledApps().get(position).setSelectedToDisplay(newToDisplay);
+                    app.setSelectedToDisplay(newToDisplay);
                     appModel.saveSelectedApps();
                     appModel.index();
 
