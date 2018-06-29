@@ -9,14 +9,20 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.maps.android.data.geojson.GeoJsonLayer;
 
+import org.json.JSONException;
 import org.sociam.koalahero.R;
 import org.sociam.koalahero.appsInspector.AppModel;
+
+import java.io.IOException;
 
 public class AdditionalInfoMapViewActivity extends AppCompatActivity implements OnMapReadyCallback{
     private MapView mapView;
     private GoogleMap gmap;
-    private static final String MAP_VIEW_BUNDLE_KEY = "API KEY";
+    private GeoJsonLayer layer;
+
+    private static final String MAP_VIEW_BUNDLE_KEY = "AIzaSyBsrb-XjGWafuOr61to_VcnBoe1--JDyDk";
 
     private String packageName;
     private AppModel appModel;
@@ -40,9 +46,10 @@ public class AdditionalInfoMapViewActivity extends AppCompatActivity implements 
             mapViewBundle = savedInstanceState.getBundle(MAP_VIEW_BUNDLE_KEY);
         }
 
-        mapView = findViewById(R.id.mapView);
-        mapView.onCreate(mapViewBundle);
-        mapView.getMapAsync(this);
+        this.mapView = findViewById(R.id.mapView);
+        this.mapView.onCreate(mapViewBundle);
+        this.mapView.getMapAsync(this);
+
 
     }
 
@@ -62,8 +69,19 @@ public class AdditionalInfoMapViewActivity extends AppCompatActivity implements 
     @Override
     public void onMapReady(GoogleMap map) {
         this.gmap = map;
-        gmap.setMinZoomPreference(12);
-        LatLng ny = new LatLng(40.7143528, -74.0059731);
+        try {
+            this.layer = new GeoJsonLayer(gmap, R.raw.country_data, getApplicationContext());
+            layer.addLayerToMap();
+        }
+        catch (IOException err) {
+
+        }
+        catch (JSONException err) {
+
+        }
+        gmap.setMinZoomPreference(1.0f);
+        gmap.setMaxZoomPreference(21.0f);
+        LatLng ny = new LatLng(51.5074, 0.1278);
         gmap.moveCamera(CameraUpdateFactory.newLatLng(ny));
     }
 
