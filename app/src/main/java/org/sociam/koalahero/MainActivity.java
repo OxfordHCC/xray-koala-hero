@@ -51,6 +51,7 @@ import org.sociam.koalahero.trackerMapper.TrackerMapperAPI;
 import org.sociam.koalahero.trackerMapper.TrackerMapperCompany;
 import org.sociam.koalahero.xray.XRayAPI;
 import org.sociam.koalahero.xray.XRayAppInfo;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Set;
@@ -423,6 +424,19 @@ public class MainActivity extends AppCompatActivity {
         else message.setVisibility(View.INVISIBLE);
 
         appAdapter.notifyDataSetChanged();
+
+        TextView displayMode = (TextView) findViewById(R.id.display_mode);
+        switch ( appModel.getDisplayMode() ){
+            case SELECTED:
+                displayMode.setText("Showing Selected");
+                break;
+            case TOP_TEN:
+                displayMode.setText("Showing Top 10");
+                break;
+            case All:
+                displayMode.setText("Showing All");
+                break;
+        }
     }
 
     @Override

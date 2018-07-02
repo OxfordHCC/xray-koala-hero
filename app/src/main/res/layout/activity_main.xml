@@ -32,10 +32,17 @@
             android:padding="5dp">
 
             <TextView
+                android:id="@+id/display_mode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="DISPLAY MODE"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+            <TextView
                 android:id="@+id/ordering_indicator"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Apps Ordered By Most Used"
+                android:text="Ordered By Most Used"
                 app:layout_constraintEnd_toEndOf="parent"/>
 
         </android.support.constraint.ConstraintLayout>
