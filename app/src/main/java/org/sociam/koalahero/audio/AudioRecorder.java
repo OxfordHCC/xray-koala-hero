@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.ImageView;
@@ -21,6 +22,8 @@ import java.io.IOException;
 public class AudioRecorder {
 
     private static AudioRecorder INSTANCE;
+
+    private int notificationID = 0;
 
     public static AudioRecorder getINSTANCE( Context con ) {
         if (INSTANCE == null) INSTANCE = new AudioRecorder( con );
@@ -85,6 +88,9 @@ public class AudioRecorder {
                     .setContentTitle("Koala Hero")
                     .setContentText("Koala Hero is now recording audio...")
                     .setPriority(NotificationCompat.PRIORITY_HIGH);
+
+            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
+            notificationManager.notify(notificationID++, mBuilder.build());
 
         } catch (IOException e ){
             e.printStackTrace();
