@@ -1,30 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-
+<LinearLayout
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_width="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:orientation="vertical">
 
-    <LinearLayout
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:theme="@style/ToolBarStyle" />
 
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorAccent"
         android:padding="10dp"
         >
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/colorPrimary"
-            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-            app:theme="@style/ToolBarStyle" />
 
 
         <!-- Basic Information -->
@@ -70,7 +67,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="@string/number_of_downloads"
-            android:textColor="@color/colorWhite"
+            android:textColor="@color/offWhite"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="@+id/installsTextView"
             app:layout_constraintStart_toStartOf="@+id/installsTextView"
@@ -83,7 +80,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="4dp"
             android:text="Hapax Solutions Ltd"
-            android:textColor="@color/colorWhite"
+            android:textColor="@color/offWhite"
             app:layout_constraintStart_toEndOf="@+id/per_app_icon"
             app:layout_constraintTop_toBottomOf="@+id/per_app_title" />
 
@@ -128,7 +125,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="@string/xray_rating"
-            android:textColor="@color/colorWhite"
+            android:textColor="@color/offWhite"
             app:layout_constraintEnd_toEndOf="@+id/appDetailRatingBar"
             app:layout_constraintStart_toStartOf="@+id/appDetailRatingBar"
             app:layout_constraintTop_toBottomOf="@+id/per_app_icon" />
@@ -139,7 +136,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="@string/pegi_label"
-            android:textColor="@color/colorWhite"
+            android:textColor="@color/offWhite"
             app:layout_constraintEnd_toEndOf="@+id/pegiRatingTextView"
             app:layout_constraintStart_toStartOf="@+id/pegiRatingTextView"
             app:layout_constraintTop_toBottomOf="@+id/per_app_icon" />
@@ -160,42 +157,50 @@
             app:layout_constraintTop_toBottomOf="@+id/Pegi" />
 
 
-            <!-- Screen Shots -->
+    </android.support.constraint.ConstraintLayout>
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="100dp"
-                />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="Screenshots if any exist"/>
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorSecondary"
+        android:padding="10dp"
+        >
 
-        </android.support.constraint.ConstraintLayout>
+        <!-- Screen Shots -->
 
-        <!-- Additional Information -->
-        <LinearLayout
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Screenshots if any exist"/>
+
+    </android.support.constraint.ConstraintLayout>
+
+    <!-- Additional Information -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp">
+
+        <GridView
+            android:id="@+id/additionalInfoGridView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp">
-
-            <GridView
-                android:id="@+id/additionalInfoGridView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:numColumns="2"
-                android:stretchMode="columnWidth"
-                />
-
-
-        </LinearLayout>
-
+            android:gravity="center"
+            android:numColumns="2"
+            android:stretchMode="columnWidth"
+            />
 
 
     </LinearLayout>
-
     <include layout="@layout/recording_dot" />
 
-</android.support.constraint.ConstraintLayout>
+
+</LinearLayout>
+
+
