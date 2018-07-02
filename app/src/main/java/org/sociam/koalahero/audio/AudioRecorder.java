@@ -50,6 +50,11 @@ public class AudioRecorder {
 
     private AudioRecording currentRecording = null;
 
+    public int getCurrentRecordingTime(){
+        if( isRecording )
+            return (int)(System.currentTimeMillis() - currentRecording.getTimeStarted())/1000;
+        return 0;
+    }
 
     public boolean toggleRecording(){
         if( isRecording ) return stopRecording();

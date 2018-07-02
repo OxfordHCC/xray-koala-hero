@@ -1,6 +1,7 @@
 package org.sociam.koalahero;
 
 import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.constraint.ConstraintLayout;
@@ -112,18 +113,35 @@ public class AudioRecordingActivity extends AppCompatActivity {
                             timeView.setText( AudioPlayer.secondsToTime(audioPlayer.getCurrentPosition()/1000) + "/" + AudioPlayer.secondsToTime(audioPlayer.getDuration()/1000) );
 
                             progressBar.setProgress( audioPlayer.getProgress() );
+
+
+                            final TextView currentRecordingTime = (TextView) findViewById(R.id.recording_time);
+                            currentRecordingTime.setText( AudioPlayer.secondsToTime(audioRecorder.getCurrentRecordingTime()) );
                         }
                     });
 
-                    try {
-                        Thread.sleep(200);
-                    } catch ( InterruptedException e){
+                    try { Thread.sleep(200); } catch ( InterruptedException e){}
 
-                    }
                 }
             }
         });
         audioPlayerInterface.start();
+
+        ImageView audioPlayButton = (ImageView) findViewById(R.id.audio_player_play);
+        audioPlayButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                audioPlayer.play();
+            }
+        });
+
+        ImageView audioPauseButton = (ImageView) findViewById(R.id.audio_player_pause);
+        audioPauseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                audioPlayer.pause();
+            }
+        });
 
     }
 
