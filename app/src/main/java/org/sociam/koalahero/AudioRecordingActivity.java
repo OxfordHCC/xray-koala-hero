@@ -1,6 +1,7 @@
 package org.sociam.koalahero;
 
 import android.graphics.drawable.Drawable;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.sociam.koalahero.audio.AudioPlayer;
 import org.sociam.koalahero.audio.AudioRecorder;
 import org.sociam.koalahero.gridAdapters.AudioFilesAdapter;
 
@@ -22,6 +24,8 @@ import java.io.InputStream;
 public class AudioRecordingActivity extends AppCompatActivity {
 
     AudioRecorder audioRecorder;
+
+    private AudioPlayer audioPlayer;
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -37,7 +41,7 @@ public class AudioRecordingActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Audio Recording");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
+        audioPlayer = AudioPlayer.getINSTANCE();
         audioRecorder = AudioRecorder.getINSTANCE(this);
         updateRecordingButton();
 
@@ -87,7 +91,7 @@ public class AudioRecordingActivity extends AppCompatActivity {
     public void updateScreen(){
 
         TextView noFilesMessage = (TextView) findViewById(R.id.no_recordings_message);
-        if( audioRecorder.getAudioFileStore().getNumberFiles() ==0 ){
+        if( audioRecorder.getAudioStore().getNumberFiles() ==0 ){
             noFilesMessage.setVisibility(View.VISIBLE);
         } else {
             noFilesMessage.setVisibility(View.INVISIBLE);

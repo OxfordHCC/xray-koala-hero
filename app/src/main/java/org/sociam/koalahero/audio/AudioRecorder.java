@@ -3,23 +3,20 @@ package org.sociam.koalahero.audio;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.media.Image;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
-import android.provider.Settings;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import org.sociam.koalahero.AudioRecordingActivity;
+import org.sociam.koalahero.MainActivity;
 import org.sociam.koalahero.R;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class AudioRecorder {
 
@@ -30,7 +27,7 @@ public class AudioRecorder {
         return INSTANCE;
     }
 
-    private AudioFileStore audioFileStore;
+    private AudioStore audioStore;
 
     private File recordingDir;
     private Context context;
@@ -41,7 +38,7 @@ public class AudioRecorder {
         recordingDir = new File(con.getFilesDir().getPath() + "/recordings/" );
         if( !recordingDir.exists()) recordingDir.mkdir();
 
-        audioFileStore = AudioFileStore.getInstance();
+        audioStore = AudioStore.getInstance();
     }
 
     private MediaRecorder recorder;
@@ -77,8 +74,12 @@ public class AudioRecorder {
             recorder.start();
             isRecording = true;
 
-            Toast.makeText(context, "Audio Recording Started " + filePath, Toast.LENGTH_SHORT).show();
-
+            //Toast.makeText(context, "Audio Recording Started " + filePath, Toast.LENGTH_SHORT).show();
+            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, MainActivity.NOTIFICATION_CHANNEL_ID)
+                    .setSmallIcon(R.drawable.ic_fiber_manual_record_red)
+                    .setContentTitle("Koala Hero")
+                    .setContentText("Koala Hero is now recording audio...")
+                    .setPriority(NotificationCompat.PRIORITY_HIGH);
 
         } catch (IOException e ){
             e.printStackTrace();
@@ -112,7 +113,7 @@ public class AudioRecorder {
             }
 
             // Add to file store
-            audioFileStore.addNew(currentRecording);
+            audioStore.addNew(currentRecording);
 
             //audioPlayer(files.get(files.size()-1));
 
@@ -126,20 +127,6 @@ public class AudioRecorder {
         }
     }
 
-
-    public void audioPlayer(String filePath){
-        //set up MediaPlayer
-        MediaPlayer mp = new MediaPlayer();
-
-        try {
-            mp.setDataSource(filePath);
-
-            mp.prepare();
-            mp.start();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     public void deleteRecordings(){
         File[] recordings = recordingDir.listFiles();
@@ -178,7 +165,7 @@ public class AudioRecorder {
         return recordingDir;
     }
 
-    public AudioFileStore getAudioFileStore() {
-        return audioFileStore;
+    public AudioStore getAudioStore() {
+        return audioStore;
     }
 }

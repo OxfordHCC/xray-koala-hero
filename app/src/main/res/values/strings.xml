@@ -43,5 +43,8 @@
     <string name="sort_weekly">Week</string>
     <string name="sort_monthly">Month</string>
 
+    <!-- Notifications -->
+    <string name="channel_name">Koala Hero</string>
+    <string name="channel_description">Notificatiosn from Koala Hero</string>
 
 </resources>

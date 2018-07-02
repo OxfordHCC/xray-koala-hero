@@ -1,5 +1,7 @@
 package org.sociam.koalahero.audio;
 
+import java.io.File;
+
 public class AudioRecording {
 
 
@@ -34,4 +36,9 @@ public class AudioRecording {
     public void setDuration(int duration) {
         this.duration = duration;
     }
+
+    public boolean isDownloaded(){
+        return new File(filePath).exists();
+    }
+
 }

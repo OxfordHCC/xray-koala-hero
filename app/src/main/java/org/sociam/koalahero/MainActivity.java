@@ -2,10 +2,13 @@ package org.sociam.koalahero;
 
 import android.app.Activity;
 import android.app.AppOpsManager;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.arch.core.util.Function;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.os.Build;
 import android.os.Process;
 import android.provider.Settings;
 import android.support.design.widget.NavigationView;
@@ -62,13 +65,28 @@ public class MainActivity extends AppCompatActivity {
     private TextView loading_bar_message;
     private DrawerLayout mDrawerLayout;
 
-
     // Audio
-    AudioRecorder audioRecorder;
+    private AudioRecorder audioRecorder;
+
+    // Notifications
+    public static String NOTIFICATION_CHANNEL_ID = "KoalaChannel";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+        // Create NotificationChannel
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = getString(R.string.channel_name);
+            String description = getString(R.string.channel_description);
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
 
 
 
