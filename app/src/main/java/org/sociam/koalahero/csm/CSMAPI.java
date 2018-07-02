@@ -14,27 +14,38 @@ import java.net.URL;
 
 public class CSMAPI {
     private static CSMAPI INSTANCE;
+    private Context context;
 
     private CSMAPI() {
 
     }
 
-    public static CSMAPI getInstance() {
+    private CSMAPI(Context context) {
+        this.context = context;
+    }
+
+    public static CSMAPI getInstance(Context context) {
         if (INSTANCE == null) {
-            return new CSMAPI();
+            return new CSMAPI(context);
         }
         return INSTANCE;
     }
 
-    public static class CSMRequest extends AsyncTask<String, CSMAppInfo, Void> {
+
+    public void exectuteCSMRequest(Function<Void, Void> completionFunction, Function<CSMAppInfo, Void> onProgressFunction, String... packageNames) {
+        new CSMRequest(completionFunction, onProgressFunction).execute(packageNames);
+    }
+
+
+    private class CSMRequest extends AsyncTask<String, CSMAppInfo, Void> {
         private Function<CSMAppInfo, Void> progressFunction = null;
-        private Context context = null;
+        private Function<Void, Void> completionFunction = null;
 
         private CSMRequest(){}
 
-        public CSMRequest(Function<CSMAppInfo, Void> progressFunction, Context context) {
+        public CSMRequest(Function<Void, Void> completionFunction, Function<CSMAppInfo, Void> progressFunction) {
             this.progressFunction = progressFunction;
-            this.context = context;
+            this.completionFunction = completionFunction;
         }
 
         private CSMAppInfo requestCSMApp(String appPackageName) {
@@ -69,11 +80,24 @@ public class CSMAPI {
         }
 
         @Override
+        protected void onPostExecute(Void thisIsVoid) {
+            super.onPostExecute(thisIsVoid);
+            this.completionFunction.apply(null);
+        }
+
+        @Override
         protected Void doInBackground(String... appPackageNames) {
             int numHosts = appPackageNames.length;
             for(int i=0; i < numHosts; i++) {
                 CSMAppInfo csmAppInfo = requestCSMApp(appPackageNames[i]);
-                publishProgress(csmAppInfo);
+                if(csmAppInfo != null) {
+                    publishProgress(csmAppInfo);
+                }
+                else{
+                    csmAppInfo = new CSMAppInfo();
+                    csmAppInfo.appPackageName = appPackageNames[i];
+                    publishProgress(csmAppInfo);
+                }
             }
             return null;
         }

@@ -4,13 +4,10 @@ import android.content.Context;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -56,6 +53,9 @@ public class AppModel {
     // List of orderd package names. This can be used to convert the index into the package name
     private String[] appIndex;
 
+    public Set<String> getInstalledAppsKeys() {
+        return this.installedApps.keySet();
+    }
 
     public List<App> getAllInstalledApps(){
         return new ArrayList<App>(installedApps.values());
@@ -88,6 +88,27 @@ public class AppModel {
 
     public ArrayList<String> getInstalledApps(){
         return new ArrayList<>(installedApps.keySet());
+    }
+
+    // === Mics ===
+
+    public int countApps( AppDisplayMode adm ){
+        if( adm == AppDisplayMode.All){
+            return installedApps.size();
+        } else if ( adm == AppDisplayMode.TOP_TEN || adm == AppDisplayMode.SELECTED ){
+
+            int n = 0;
+            for( String key: installedApps.keySet() ){
+
+                App a = installedApps.get(key);
+                if( (adm == AppDisplayMode.TOP_TEN && a.isInTop10()) || (adm == AppDisplayMode.SELECTED && a.isSelectedToDisplay()) ){
+                    n++;
+                }
+
+            }
+            return n;
+        }
+        return 0;
     }
 
     // === Top 10 Apps ===
@@ -128,6 +149,21 @@ public class AppModel {
 
         index();
 
+    }
+
+    private String[] alphabeticalIndex;
+    public void createAlphabeticalIndex(){
+        List<App> apps = new ArrayList<App>(installedApps.values());
+        Collections.sort(apps, new App());
+
+        alphabeticalIndex = new String[ apps.size() ];
+        for( int i = 0 ; i < alphabeticalIndex.length; i++ ){
+            alphabeticalIndex[i] = apps.get(i).getxRayAppInfo().app;
+        }
+    }
+
+    public String[] getAlphabeticalIndex(){
+        return alphabeticalIndex;
     }
 
     // === Index for Grid ===
@@ -211,7 +247,7 @@ public class AppModel {
                 while( s.hasNext() ){
                     String name = s.nextLine();
                     if( installedApps.get(name) != null)
-                        installedApps.get(name).setIsSelectedToDisplay(true);
+                        installedApps.get(name).setSelectedToDisplay(true);
                 }
 
                 s.close();
@@ -220,6 +256,13 @@ public class AppModel {
             }
 
         } else {
+            // Set default Apps
+            for( String key : installedApps.keySet()){
+
+                App app = installedApps.get(key);
+                app.setSelectedToDisplay(app.isInTop10());
+
+            }
             saveSelectedApps();
         }
     }

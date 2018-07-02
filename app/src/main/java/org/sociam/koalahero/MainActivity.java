@@ -49,6 +49,7 @@ import org.sociam.koalahero.xray.XRayAPI;
 import org.sociam.koalahero.xray.XRayAppInfo;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -221,6 +222,90 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    private void loadCSMData() {
+        CSMAPI csmapi = CSMAPI.getInstance(getApplicationContext());
+
+        pb.setProgress(0);
+
+        String loading_string =
+                String.valueOf("CSM Info: " + 0) +
+                        " out of " +
+                        String.valueOf(appModel.getInstalledAppsKeys().size());
+
+        loading_bar_message.setText(loading_string);
+        Set<String> packageNames = appModel.getInstalledAppsKeys();
+        csmapi.exectuteCSMRequest(
+            // Completion Function
+            new Function<Void, Void>() {
+                @Override
+                public Void apply(Void input) {
+                    launchMainView();
+                    return null;
+                }
+            },
+            // Progress Function
+            new Function<CSMAppInfo, Void>() {
+                @Override
+                public Void apply(CSMAppInfo input) {
+
+                    App appInfo = appModel.getApp(input.appPackageName);
+                    if(appInfo != null) {
+                        appInfo.setCsmAppInfo(input);
+                    }
+                    pb.setProgress(pb.getProgress() + 1);
+
+                    String loading_string = String.valueOf(
+                        "CSM Info: " + pb.getProgress()) +
+                        " out of " +
+                        String.valueOf(appModel.getInstalledAppsKeys().size()
+                    );
+                    loading_bar_message.setText(loading_string);
+
+                    return null;
+                }
+            },
+            packageNames.toArray(new String[packageNames.size()])
+        );
+    }
+
+    private void loadXRayAppData(final String... packageNames) {
+        // Begin Query for apps installed on phone.
+        new XRayAPI.XRayAppData(
+                // Completion Function
+                new Function<Void, Void>() {
+                    @Override
+                    public Void apply(Void VOID) {
+                        loadCSMData();
+                        return null;
+                    }
+                },
+                // Progress Function
+                new Function<XRayAppInfo, Void>() {
+                    @Override
+                    public Void apply(XRayAppInfo input) {
+
+                        App newApp = new App(input, getApplicationContext());
+
+                        appModel.addApp(newApp);
+
+                        pb.setProgress(appModel.getTotalNumberApps());
+
+                        String loading_string =
+                                String.valueOf("App Info: " + pb.getProgress()) +
+                                        " out of " +
+                                        String.valueOf(packageNames.length);
+
+                                loading_bar_message.setText(loading_string);
+
+                        return null;
+                    }
+                }
+                ,
+                // App Context.
+                getApplicationContext()
+        ).execute(packageNames);
+    }
+
     private void beginLoading() {
         setContentView(R.layout.loading_screen);
         // Set loading screen anim.
@@ -240,43 +325,7 @@ public class MainActivity extends AppCompatActivity {
         String loading_string = "0 out of " + String.valueOf(appPackageNames.size());
         loading_bar_message.setText(loading_string);
 
-        // Begin Query for apps installed on phone.
-        new XRayAPI.XRayAppData(
-                // Completion Function
-                new Function<Void, Void>() {
-                    @Override
-                    public Void apply(Void VOID) {
-                        launchMainView();
-                        return null;
-                    }
-                },
-                // Progress Function
-                new Function<XRayAppInfo, Void>() {
-                    @Override
-                    public Void apply(XRayAppInfo input) {
-
-                        App newApp = new App(input, getApplicationContext());
-                        appModel.addApp(newApp);
-
-                        pb.setProgress(appModel.getTotalNumberApps());
-
-                        String loading_string =
-                                String.valueOf(appModel.getTotalNumberApps()) +
-                                " out of " +
-                                String.valueOf(appPackageNames.size());
-
-                        loading_bar_message.setText(loading_string);
-
-                        return null;
-                    }
-                }
-                ,
-                // App Context.
-                getApplicationContext()
-        ).execute(appPackageNames.toArray(new String[appPackageNames.size()]));
-
-
-
+        loadXRayAppData(appPackageNames.toArray(new String[appPackageNames.size()]));
 
         // Index package names
     }
@@ -294,6 +343,7 @@ public class MainActivity extends AppCompatActivity {
 
         appModel.loadData( this );
         appModel.index();
+        appModel.createAlphabeticalIndex();
         appModel.setReady();
 
 
@@ -433,51 +483,4 @@ public class MainActivity extends AppCompatActivity {
 
         audioRecorder.updateRecordingUI(this);
     }
-
-    // Just here to test the API consumers...
-    private void foo() {
-        XRayAPI api = XRayAPI.getInstance();
-
-        new XRayAPI.XRayAppData(
-                new Function<Void, Void>(){
-                    @Override
-                    public Void apply(Void nothing){
-                        return null;
-                    }
-                },
-                new Function<XRayAppInfo, Void>() {
-                    @Override
-                    public Void apply(XRayAppInfo appInfo){
-                        System.out.println(appInfo.appStoreInfo.title);
-                        return null;
-                    }
-                },
-                getApplicationContext()
-
-        ).execute("com.linkedin.android","com.whatsapp","com.tencent.mm");
-
-        new CSMAPI.CSMRequest(
-                new Function<CSMAppInfo, Void>() {
-                    @Override
-                    public Void apply(CSMAppInfo csmAppInfo) {
-                        System.out.println(csmAppInfo.oneLiner);
-                        return null;
-                    }
-                },
-                getApplicationContext()
-        ).execute("com.linkedin.android","com.whatsapp","com.tencent.mm");
-
-        TrackerMapperAPI TMAPI = TrackerMapperAPI.getInstance(getApplicationContext());
-        TMAPI.executeTrackerMapperRequest(
-            new Function<TrackerMapperCompany, Void>() {
-                @Override
-                public Void apply(TrackerMapperCompany input) {
-                    System.out.print(input);
-                    return null;
-                }
-            },
-        "facebook.com"
-        );
-    }
-
 }
