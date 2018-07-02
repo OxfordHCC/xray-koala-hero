@@ -181,4 +181,6 @@
         app:layout_constraintStart_toStartOf="@+id/genreAverageValue"
         app:layout_constraintTop_toBottomOf="@+id/genreAverageValue" />
 
+    <include layout="@layout/recording_dot" />
+
 </android.support.constraint.ConstraintLayout>

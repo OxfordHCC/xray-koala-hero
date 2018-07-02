@@ -198,6 +198,9 @@
 
 
     </LinearLayout>
+    <include layout="@layout/recording_dot" />
 
 
 </LinearLayout>
+
+

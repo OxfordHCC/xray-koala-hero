@@ -22,6 +22,7 @@ import org.w3c.dom.Text;
 import java.io.Console;
 import java.util.ArrayList;
 import java.util.HashMap;
+import org.sociam.koalahero.audio.AudioRecorder;
 
 public class AdditionalInfoTrackersActivity extends AppCompatActivity {
 
@@ -37,6 +38,8 @@ public class AdditionalInfoTrackersActivity extends AppCompatActivity {
         this.appModel = AppModel.getInstance();
         this.packageName = this.appModel.selectedAppPackageName;
         this.selectedApp = this.appModel.getApp(this.packageName);
+
+        AudioRecorder.getINSTANCE(this).updateRecordingUI(this);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
