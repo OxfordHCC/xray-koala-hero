@@ -41,8 +41,6 @@ public class AppSelectorActivity extends AppCompatActivity {
 
         AudioRecorder.getINSTANCE(this).updateRecordingUI(this);
 
-        updateGrid();
-
 
         GridView gridview = (GridView) findViewById(R.id.selectionGridView);
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
