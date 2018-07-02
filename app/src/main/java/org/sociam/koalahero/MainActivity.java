@@ -334,7 +334,6 @@ public class MainActivity extends AppCompatActivity {
 
         loadXRayAppData(appPackageNames.toArray(new String[appPackageNames.size()]));
 
-        // Index package names
     }
 
     private void launchMainView() {
@@ -360,6 +359,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Prepare AppModel
         appModel.loadData( this );
+        appModel.fixData();
         appModel.index();
         appModel.createAlphabeticalIndex();
         appModel.setReady();
@@ -382,25 +382,6 @@ public class MainActivity extends AppCompatActivity {
                             case R.id.nav_recording:
                                 launchAudioRecordingMenu();
                                 break;
-//                                if( !audioRecorder.isRecording() ) {
-//                                    audioRecorder.startRecording();
-//                                    menuItem.setChecked(true);
-//                                    menuItem.setTitle(R.string.recording_active);
-//                                } else {
-//                                    audioRecorder.stopRecording();
-//                                    menuItem.setChecked(false);
-//                                    menuItem.setTitle(R.string.recording_not_active);
-//                                }
-//                                break;
-//                            case R.id.nav_delete_recording:
-//                                audioRecorder.deleteRecordings();
-//                                break;
-//                            case R.id.nav_view_selected:
-//                                appModel.setDisplayMode(AppDisplayMode.SELECTED);
-//                                break;
-//                            case R.id.nav_view_top_10:
-//                                appModel.setDisplayMode(AppDisplayMode.TOP_TEN);
-//                                break;
                         }
 
                         mDrawerLayout.closeDrawers();
