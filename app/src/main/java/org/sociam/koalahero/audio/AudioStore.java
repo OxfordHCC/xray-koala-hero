@@ -55,7 +55,9 @@ public class AudioStore {
 
     public void play( int i ){
 
-        audioPlayer.loadFile( files.get(i).getFilePath());
+        AudioRecording ar = files.get(i);
+
+        audioPlayer.loadFile( ar.getFilePath(), ar.getTitleFromTime());
         audioPlayer.play();
 
     }

@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import org.sociam.koalahero.AudioRecordingActivity;
 import org.sociam.koalahero.R;
+import org.sociam.koalahero.audio.AudioPlayer;
 import org.sociam.koalahero.audio.AudioStore;
 import org.sociam.koalahero.audio.AudioRecorder;
 import org.sociam.koalahero.audio.AudioRecording;
@@ -63,16 +64,9 @@ public class AudioFilesAdapter extends RecyclerView.Adapter<AudioFilesAdapter.Vi
 
         final AudioRecording ar = audioStore.get(position);
 
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(ar.getTimeStarted());
+        holder.fileTime.setText( ar.getTitleFromTime() );
 
-        holder.fileTime.setText( String.format("%02d", calendar.get(Calendar.HOUR_OF_DAY))
-                + ":" + String.format("%02d", calendar.get(Calendar.MINUTE))
-                + " " + String.format("%02d", calendar.get(Calendar.DAY_OF_MONTH))
-                + "/" + String.format("%02d", calendar.get(Calendar.MONTH))
-                + "/" + calendar.get(Calendar.YEAR));
-
-        holder.audioDuration.setText( secondsToTime(ar.getDuration()/1000) );
+        holder.audioDuration.setText(AudioPlayer.secondsToTime(ar.getDuration()/1000) );
 
 
         holder.playButton.setVisibility(View.INVISIBLE);
@@ -122,8 +116,4 @@ public class AudioFilesAdapter extends RecyclerView.Adapter<AudioFilesAdapter.Vi
     }
 
 
-    public String secondsToTime( int seconds ){
-
-        return (seconds/60) + ":" + String.format("%02d", (seconds%60));
-    }
 }

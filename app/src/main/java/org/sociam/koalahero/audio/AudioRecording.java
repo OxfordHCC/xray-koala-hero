@@ -1,6 +1,7 @@
 package org.sociam.koalahero.audio;
 
 import java.io.File;
+import java.util.Calendar;
 
 public class AudioRecording {
 
@@ -41,4 +42,16 @@ public class AudioRecording {
         return new File(filePath).exists();
     }
 
+
+    public String getTitleFromTime(){
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(timeStarted);
+
+        return String.format("%02d", calendar.get(Calendar.HOUR_OF_DAY))
+                + ":" + String.format("%02d", calendar.get(Calendar.MINUTE))
+                + " " + String.format("%02d", calendar.get(Calendar.DAY_OF_MONTH))
+                + "/" + String.format("%02d", calendar.get(Calendar.MONTH))
+                + "/" + calendar.get(Calendar.YEAR);
+    }
 }
