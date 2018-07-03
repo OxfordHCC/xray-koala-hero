@@ -1,5 +1,6 @@
 package org.sociam.koalahero;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AppOpsManager;
 import android.app.NotificationChannel;
@@ -7,13 +8,20 @@ import android.app.NotificationManager;
 import android.arch.core.util.Function;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.AsyncTask;
+
 import android.os.Build;
 import android.os.Process;
 import android.provider.Settings;
+import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -51,7 +59,12 @@ import org.sociam.koalahero.trackerMapper.TrackerMapperAPI;
 import org.sociam.koalahero.trackerMapper.TrackerMapperCompany;
 import org.sociam.koalahero.xray.XRayAPI;
 import org.sociam.koalahero.xray.XRayAppInfo;
+import org.w3c.dom.Text;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Set;
 
@@ -59,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static final int APP_USAGE_PERMISSION_INTENT = 1;
     public static final int SETTINGS_REQUEST_CODE = 298;
+    public static final int AUDIO_PERMISSION_REQUEST_CODE = 118;
 
     public static String PACKAGE_NAME;
     private AppModel appModel;
@@ -137,6 +151,8 @@ public class MainActivity extends AppCompatActivity {
             else{
                 // how to handle not granting permission????
             }
+        } else if (requestCode == AUDIO_PERMISSION_REQUEST_CODE) {
+
         } else if (requestCode == SETTINGS_REQUEST_CODE) {
 
             if( resultCode == RESULT_OK) {
@@ -359,7 +375,6 @@ public class MainActivity extends AppCompatActivity {
 
         loadXRayAppData(appPackageNames.toArray(new String[appPackageNames.size()]));
 
-        // Index package names
     }
 
     private void launchMainView() {
@@ -373,7 +388,19 @@ public class MainActivity extends AppCompatActivity {
         );
 
 
+        // Microphone Permission
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.RECORD_AUDIO},
+                    AUDIO_PERMISSION_REQUEST_CODE);
+
+        }
+
+        // Prepare AppModel
         appModel.loadData( this );
+        appModel.fixData();
         appModel.index();
         appModel.createAlphabeticalIndex();
         appModel.setReady();
@@ -396,25 +423,6 @@ public class MainActivity extends AppCompatActivity {
                             case R.id.nav_recording:
                                 launchAudioRecordingMenu();
                                 break;
-//                                if( !audioRecorder.isRecording() ) {
-//                                    audioRecorder.startRecording();
-//                                    menuItem.setChecked(true);
-//                                    menuItem.setTitle(R.string.recording_active);
-//                                } else {
-//                                    audioRecorder.stopRecording();
-//                                    menuItem.setChecked(false);
-//                                    menuItem.setTitle(R.string.recording_not_active);
-//                                }
-//                                break;
-//                            case R.id.nav_delete_recording:
-//                                audioRecorder.deleteRecordings();
-//                                break;
-//                            case R.id.nav_view_selected:
-//                                appModel.setDisplayMode(AppDisplayMode.SELECTED);
-//                                break;
-//                            case R.id.nav_view_top_10:
-//                                appModel.setDisplayMode(AppDisplayMode.TOP_TEN);
-//                                break;
                         }
 
                         mDrawerLayout.closeDrawers();
@@ -446,6 +454,30 @@ public class MainActivity extends AppCompatActivity {
 
         updateGridView();
 
+
+        if( isFirstLaunch() ) {
+            ConstraintLayout cl = (ConstraintLayout) findViewById(R.id.content_frame);
+            Snackbar snackbar = Snackbar
+                    .make(cl, "Not happy with the top 10 apps listed?", Snackbar.LENGTH_LONG)
+                    .setAction("Customise", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            launchAppSelector();
+                        }
+                    });
+
+            // Changing message text color
+            snackbar.setActionTextColor(getResources().getColor(R.color.colorPrimary));
+            snackbar.setDuration(10000);
+
+            // Changing action button text color
+            View sbView = snackbar.getView();
+            TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+            textView.setTextColor(getResources().getColor(R.color.colorSecondary));
+
+            snackbar.show();
+        }
+
     }
 
     private AppAdapter appAdapter;
@@ -456,6 +488,19 @@ public class MainActivity extends AppCompatActivity {
         else message.setVisibility(View.INVISIBLE);
 
         appAdapter.notifyDataSetChanged();
+
+        TextView displayMode = (TextView) findViewById(R.id.display_mode);
+        switch ( appModel.getDisplayMode() ){
+            case SELECTED:
+                displayMode.setText("Showing Selected");
+                break;
+            case TOP_TEN:
+                displayMode.setText("Showing Top 10");
+                break;
+            case All:
+                displayMode.setText("Showing All");
+                break;
+        }
     }
 
     @Override
@@ -514,5 +559,22 @@ public class MainActivity extends AppCompatActivity {
         }
 
         audioRecorder.updateRecordingUI(this);
+    }
+
+
+    public boolean isFirstLaunch(){
+
+        File file = new File(this.getFilesDir(), "firstLaunch.dat");
+        if( file.exists()){
+            return false;
+        }
+
+        try {
+            FileOutputStream out = new FileOutputStream(file);
+            out.write(1);
+            out.close();
+        } catch (IOException e){}
+
+        return true;
     }
 }
