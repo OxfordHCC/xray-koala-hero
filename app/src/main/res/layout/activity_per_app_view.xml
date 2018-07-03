@@ -31,7 +31,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/colorAccent"
-                android:padding="10dp"
+                android:paddingTop="10dp"
+                android:paddingLeft="10dp"
+                android:paddingBottom="10dp"
                 >
 
 
@@ -40,7 +42,8 @@
                 <android.support.constraint.ConstraintLayout
                     android:id="@+id/basic_box_1"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp">
 
                     <ImageView
                         android:id="@+id/per_app_icon"
@@ -95,103 +98,178 @@
                     android:id="@+id/basic_box_2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/basic_box_1"
-                    android:layout_marginTop="5dp">
+
+                    android:layout_marginTop="5dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/basic_box_1">
 
                     <TextView
-                        android:id="@+id/playStoreDetails"
+                        android:id="@+id/play_store_details"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
+
                         android:layout_marginTop="8dp"
                         android:text="@string/play_store_details"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="14sp"
+                        android:textColor="@color/offWhite"
+                        android:textSize="12sp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <TextView
-                        android:id="@+id/installsLabelTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/number_of_downloads"
-                        android:textColor="@color/offWhite"
-                        android:textSize="14sp"
-                        android:layout_marginTop="8dp"
-                        app:layout_constraintEnd_toEndOf="@+id/installsTextView"
-                        app:layout_constraintStart_toStartOf="@+id/installsTextView"
-                        app:layout_constraintTop_toBottomOf="@+id/playStoreDetails" />
+                    <View
+                        android:id="@+id/play_store_details_hr_0"
+                        android:layout_width="fill_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/offWhite"
+                        android:layout_marginEnd="10dp"
+                        app:layout_constraintTop_toBottomOf="@id/play_store_details" />
 
-
-                    <TextView
-                        android:id="@+id/installsTextView"
-                        android:layout_width="wrap_content"
+                    <HorizontalScrollView
+                        android:id="@+id/play_store_details_hs"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:text="1,000,000"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="20sp"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+                        app:layout_constraintTop_toBottomOf="@id/play_store_details_hr_0">
 
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/installsLabelTextView"
-                        app:layout_constraintEnd_toStartOf="@id/pegiRatingTextView"/>
+                        <android.support.constraint.ConstraintLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <android.support.constraint.ConstraintLayout
+                                android:id="@+id/box_installs"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:layout_constraintEnd_toStartOf="@id/box_rating"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                android:layout_marginStart="5dp"
+                                android:layout_marginEnd="5dp">
+
+                                <TextView
+                                    android:id="@+id/installsLabelTextView"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="8dp"
+                                    android:text="@string/number_of_downloads"
+                                    android:textColor="@color/offWhite"
+                                    android:textSize="14sp"
+                                    app:layout_constraintEnd_toEndOf="@+id/installsTextView"
+                                    app:layout_constraintStart_toStartOf="@+id/installsTextView" />
+                                <!--app:layout_constraintTop_toBottomOf="@+id/playStoreDetails"-->
 
 
-                    <TextView
-                        android:id="@+id/Pegi"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/pegi_label"
-                        android:textColor="@color/offWhite"
+                                <TextView
+                                    android:id="@+id/installsTextView"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="8dp"
+                                    android:text="1,000,000"
+                                    android:textColor="@color/colorWhite"
+                                    android:textSize="20sp"
 
-                        app:layout_constraintEnd_toEndOf="@id/pegiRatingTextView"
-                        app:layout_constraintStart_toStartOf="@id/pegiRatingTextView"
-                        app:layout_constraintTop_toTopOf="@id/installsLabelTextView" />
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@+id/installsLabelTextView" />
+                                <!--app:layout_constraintEnd_toStartOf="@id/pegiRatingTextView"-->
 
-                    <TextView
-                        android:id="@+id/pegiRatingTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginStart="8dp"
+
+                            </android.support.constraint.ConstraintLayout>
+
+                            <android.support.constraint.ConstraintLayout
+                                android:id="@+id/box_rating"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:layout_constraintEnd_toStartOf="@id/box_age"
+                                app:layout_constraintStart_toEndOf="@id/box_installs"
+                                app:layout_constraintTop_toTopOf="parent">
+
+
+                                <TextView
+                                    android:id="@+id/textView"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="8dp"
+                                    android:text="@string/xray_rating"
+                                    android:textColor="@color/offWhite"
+                                    app:layout_constraintEnd_toEndOf="@id/appDetailRatingBar"
+                                    app:layout_constraintStart_toStartOf="@id/appDetailRatingBar" />
+                                <!--app:layout_constraintTop_toBottomOf="@+id/installsTextView"-->
+
+
+                                <RatingBar
+                                    android:id="@+id/appDetailRatingBar"
+                                    style="@style/Widget.AppCompat.RatingBar.Indicator"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="8dp"
+                                    android:layout_marginStart="8dp"
+                                    android:layout_marginTop="1dp"
+                                    android:numStars="5"
+                                    android:rating="4.5"
+                                    android:scaleX="0.75"
+                                    android:scaleY="0.75"
+                                    android:stepSize="0.01"
+                                    android:theme="@style/RatingBarStyle"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+                            </android.support.constraint.ConstraintLayout>
+
+                            <android.support.constraint.ConstraintLayout
+                                android:id="@+id/box_age"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="5dp"
+                                android:layout_marginEnd="5dp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toEndOf="@id/box_rating"
+                                app:layout_constraintTop_toTopOf="parent">
+
+                                <TextView
+                                    android:id="@+id/Pegi"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/pegi_label"
+                                    android:textColor="@color/offWhite"
+
+                                    app:layout_constraintEnd_toEndOf="@id/pegiRatingTextView"
+                                    app:layout_constraintStart_toStartOf="@id/pegiRatingTextView" />
+                                <!--app:layout_constraintTop_toTopOf="@id/installsLabelTextView"-->
+
+
+                                <TextView
+                                    android:id="@+id/pegiRatingTextView"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="8dp"
+                                    android:layout_marginStart="8dp"
+                                    android:layout_marginTop="8dp"
+                                    android:text="PEGI 3"
+
+                                    android:textColor="@color/colorWhite"
+                                    android:textSize="20sp"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@id/Pegi" />
+                                <!--app:layout_constraintStart_toEndOf="@+id/installsTextView"-->
+
+                            </android.support.constraint.ConstraintLayout>
+
+
+                        </android.support.constraint.ConstraintLayout>
+
+                    </HorizontalScrollView>
+
+                    <View
+                        android:id="@+id/play_store_details_hr_1"
+                        android:layout_width="fill_parent"
+                        android:layout_height="1dp"
                         android:layout_marginTop="8dp"
-                        android:text="PEGI 3"
-
-                        android:textColor="@color/colorWhite"
-                        android:textSize="20sp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/installsTextView"
-                        app:layout_constraintTop_toBottomOf="@id/Pegi" />
-
-                    <TextView
-                        android:id="@+id/textView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/xray_rating"
-                        android:textColor="@color/offWhite"
-                        android:layout_marginTop="8dp"
-                        app:layout_constraintEnd_toEndOf="@id/appDetailRatingBar"
-                        app:layout_constraintStart_toStartOf="@id/appDetailRatingBar"
-                        app:layout_constraintTop_toBottomOf="@+id/installsTextView" />
-
-                    <RatingBar
-                        android:id="@+id/appDetailRatingBar"
-                        style="@style/Widget.AppCompat.RatingBar.Indicator"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="8dp"
-                        android:numStars="5"
-                        android:rating="4.5"
-                        android:scaleX="0.75"
-                        android:scaleY="0.75"
-                        android:stepSize="0.01"
-                        android:theme="@style/RatingBarStyle"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView" />
-
+                        android:layout_marginEnd="10dp"
+                        android:background="@color/offWhite"
+                        app:layout_constraintTop_toBottomOf="@id/play_store_details_hs" />
+                    
 
 
                 </android.support.constraint.ConstraintLayout>
