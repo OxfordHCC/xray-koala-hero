@@ -127,15 +127,41 @@
                         android:id="@+id/installsTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
                         android:layout_marginTop="8dp"
                         android:text="1,000,000"
                         android:textColor="@color/colorWhite"
                         android:textSize="20sp"
 
-                        app:layout_constraintEnd_toStartOf="@+id/pegiRatingTextView"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/installsLabelTextView" />
+                        app:layout_constraintTop_toBottomOf="@+id/installsLabelTextView"
+                        app:layout_constraintEnd_toStartOf="@id/pegiRatingTextView"/>
+
+
+                    <TextView
+                        android:id="@+id/Pegi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/pegi_label"
+                        android:textColor="@color/offWhite"
+
+                        app:layout_constraintEnd_toEndOf="@id/pegiRatingTextView"
+                        app:layout_constraintStart_toStartOf="@id/pegiRatingTextView"
+                        app:layout_constraintTop_toTopOf="@id/installsLabelTextView" />
+
+                    <TextView
+                        android:id="@+id/pegiRatingTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:text="PEGI 3"
+
+                        android:textColor="@color/colorWhite"
+                        android:textSize="20sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/installsTextView"
+                        app:layout_constraintTop_toBottomOf="@id/Pegi" />
 
                     <TextView
                         android:id="@+id/textView"
@@ -143,8 +169,9 @@
                         android:layout_height="wrap_content"
                         android:text="@string/xray_rating"
                         android:textColor="@color/offWhite"
-                        app:layout_constraintEnd_toEndOf="@+id/appDetailRatingBar"
-                        app:layout_constraintStart_toStartOf="@+id/appDetailRatingBar"
+                        android:layout_marginTop="8dp"
+                        app:layout_constraintEnd_toEndOf="@id/appDetailRatingBar"
+                        app:layout_constraintStart_toStartOf="@id/appDetailRatingBar"
                         app:layout_constraintTop_toBottomOf="@+id/installsTextView" />
 
                     <RatingBar
@@ -165,31 +192,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
-                    <TextView
-                        android:id="@+id/Pegi"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/pegi_label"
-                        android:textColor="@color/offWhite"
 
-                        app:layout_constraintEnd_toEndOf="@+id/pegiRatingTextView"
-                        app:layout_constraintStart_toStartOf="@+id/pegiRatingTextView"
-                        app:layout_constraintTop_toTopOf="@id/installsLabelTextView" />
-
-                    <TextView
-                        android:id="@+id/pegiRatingTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="8dp"
-                        android:text="PEGI 3"
-                        android:textColor="@color/colorWhite"
-
-                        android:textSize="20sp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="installsTextView"
-                        app:layout_constraintTop_toBottomOf="@+id/Pegi" />
 
                 </android.support.constraint.ConstraintLayout>
 
