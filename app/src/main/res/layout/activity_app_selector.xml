@@ -27,6 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="0 of 10 Selected"
+            android:textSize="12sp"
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
@@ -34,6 +35,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Apps Ordered Alphabetically"
+            android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"/>
 
     </android.support.constraint.ConstraintLayout>
