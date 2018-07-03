@@ -8,6 +8,7 @@ import android.arch.core.util.Function;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Process;
 import android.provider.Settings;
@@ -266,6 +267,19 @@ public class MainActivity extends AppCompatActivity {
             },
             packageNames.toArray(new String[packageNames.size()])
         );
+    }
+
+    private void loadAppHostCompanyMappings() {
+        TrackerMapperAPI TMAPI = TrackerMapperAPI.getInstance(getApplicationContext());
+
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... voids) {
+
+                return null;
+            }
+        };
+
     }
 
     private void loadXRayAppData(final String... packageNames) {
