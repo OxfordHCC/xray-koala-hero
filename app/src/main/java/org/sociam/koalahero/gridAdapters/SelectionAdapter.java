@@ -38,20 +38,8 @@ public class SelectionAdapter extends BaseAdapter {
         this.appModel = appModel;
         this.activity = activity;
 
-        try {
-            imsTick = context.getAssets().open("circleTick.png");
-            dTick = Drawable.createFromStream(imsTick, null);
-            imsNoTick = context.getAssets().open("circleNoTick.png");
-            dNoTick = Drawable.createFromStream(imsNoTick, null);
-        } catch (IOException e){
-            e.printStackTrace();
-        }
     }
 
-    private InputStream imsTick;
-    private InputStream imsNoTick;
-    private Drawable dTick;
-    private Drawable dNoTick;
 
     public int getCount() {
         return appModel.getTotalNumberApps();
@@ -99,7 +87,6 @@ public class SelectionAdapter extends BaseAdapter {
 
             // Tick
             selectedIcon =  (ImageView) grid.findViewById(R.id.selected_icon);
-
             if( app.isSelectedToDisplay() )
                 selectedIcon.setImageResource(R.drawable.circle_tick);
             else
@@ -108,7 +95,6 @@ public class SelectionAdapter extends BaseAdapter {
 
         }
         catch (PackageManager.NameNotFoundException e) { e.printStackTrace(); }
-
 
         return grid;
     }
