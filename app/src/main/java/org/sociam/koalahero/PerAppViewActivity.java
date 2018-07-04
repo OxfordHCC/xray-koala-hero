@@ -104,9 +104,9 @@ public class PerAppViewActivity extends AppCompatActivity {
         ImageView iv3 = (ImageView) findViewById(R.id.additional_option_3_image);
 
         iv0.setImageDrawable(getDrawable(R.drawable.expert));
-        iv1.setImageDrawable(getDrawable(R.drawable.world));
-        iv0.setImageDrawable(getDrawable(R.drawable.detective));
-        iv0.setImageDrawable(getDrawable(R.drawable.busts));
+        iv1.setImageDrawable(getDrawable(R.drawable.detective));
+        iv2.setImageDrawable(getDrawable(R.drawable.world));
+        iv3.setImageDrawable(getDrawable(R.drawable.busts));
 
 
         ConstraintLayout cl0 = (ConstraintLayout) findViewById(R.id.additional_option_0);
