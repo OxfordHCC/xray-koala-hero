@@ -46,7 +46,7 @@ public class SelectionAdapter extends BaseAdapter {
     }
 
     public Object getItem(int position) {
-        return appModel.getAllInstalledApps().get(position);
+        return appModel.getApp(appModel.getUsageIndex()[position]);
     }
 
     public long getItemId(int position) {
@@ -55,7 +55,7 @@ public class SelectionAdapter extends BaseAdapter {
 
     public View getView(final int position, View convertView, ViewGroup parent) {
 
-        App app = appModel.getApp(appModel.getAlphabeticalIndex()[position]);
+        App app = appModel.getApp(appModel.getUsageIndex()[position]);
         //App app = appModel.getAllInstalledApps().get(position);
         XRayAppInfo xRayAppInfo = app.getxRayAppInfo();
 
