@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.sociam.koalahero.R;
@@ -34,12 +35,37 @@ public class CSMGuidanceAdapter extends ArrayAdapter {
 
         TextView categoryName = (TextView) convertView.findViewById(R.id.guidanceTitleTextView);
         TextView categoryRating = (TextView) convertView.findViewById(R.id.guidanceCategoryRatingTextView);
+        ImageView guidanceRatingIcon = (ImageView) convertView.findViewById(R.id.guidanceRatingIcon);
+
+        Integer rating = guidance.rating;
+        String description = guidance.description;
 
         categoryName.setText(this.getGuidanceCategoryString(guidance.category));
-        categoryRating.setText(String.valueOf(guidance.rating));
+        categoryRating.setText(String.valueOf(rating));
 
+        if(rating == 5) {
+            guidanceRatingIcon.setImageDrawable(convertView.getContext().getDrawable(R.drawable.happy_face));
+        }
+        else if(rating == 4) {
+            guidanceRatingIcon.setImageDrawable(convertView.getContext().getDrawable(R.drawable.smile_icon));
+        }
+        else if(rating == 3) {
+            guidanceRatingIcon.setImageDrawable(convertView.getContext().getDrawable(R.drawable.neutral_icon));
+        }
+        else if(rating == 2) {
+            guidanceRatingIcon.setImageDrawable(convertView.getContext().getDrawable(R.drawable.sad_icon));
+        }
+        else if(rating == 1) {
+            guidanceRatingIcon.setImageDrawable(convertView.getContext().getDrawable(R.drawable.sad_face));
+        }
+        else if(rating == 0 && !description.equals("No Rating")) {
+            guidanceRatingIcon.setImageDrawable(convertView.getContext().getDrawable(R.drawable.thinking_face));
+        }
+        else {
+            guidanceRatingIcon.setImageDrawable(convertView.getContext().getDrawable(R.drawable.question_mark_icon));
+        }
 
-        return convertView;
+            return convertView;
     }
 
 

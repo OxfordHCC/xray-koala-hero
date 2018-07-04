@@ -149,6 +149,7 @@ public class AdditionalInfoTrackersActivity extends AppCompatActivity {
         barChart.getXAxis().setDrawLabels(true);
         barChart.getXAxis().setDrawGridLines(false);
         barChart.getXAxis().setLabelCount(barData.getEntryCount());
+        barChart.getDescription().setEnabled(false);
         barChart.setScaleEnabled(false);
 
         barChart.invalidate();
