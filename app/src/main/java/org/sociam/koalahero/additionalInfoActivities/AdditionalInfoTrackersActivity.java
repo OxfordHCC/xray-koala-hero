@@ -11,9 +11,12 @@ import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
+import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import org.sociam.koalahero.R;
@@ -114,8 +117,8 @@ public class AdditionalInfoTrackersActivity extends AppCompatActivity {
 
         ArrayList<String> axisLabels = new ArrayList<String>(Arrays.asList("This App", "Genre Avg", "All Apps Avg"));
 
-        BarData bd = this.buildBarData(barValues);
-        this.buildHostBarChart(bd ,axisLabels);
+        BarData bd = this.buildBarData(barValues, axisLabels);
+        this.buildHostBarChart(bd, axisLabels);
 
         /**
          * Set information read from device
@@ -132,10 +135,17 @@ public class AdditionalInfoTrackersActivity extends AppCompatActivity {
         }
     }
 
-    private void buildHostBarChart(BarData barData, ArrayList<String> axisValues){
+    private void buildHostBarChart(BarData barData, final ArrayList<String> labels){
         BarChart barChart = (BarChart) findViewById(R.id.hostBarChart);
         barChart.setData(barData);
         barChart.setFitBars(true);
+        barChart.getXAxis().setValueFormatter(new IAxisValueFormatter() {
+            @Override
+            public String getFormattedValue(float value, AxisBase axis) {
+                return labels.get((int) value);
+            }
+        });
+        barChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
         barChart.getXAxis().setDrawLabels(true);
         barChart.getXAxis().setDrawGridLines(false);
         barChart.getXAxis().setLabelCount(barData.getEntryCount());
@@ -144,16 +154,19 @@ public class AdditionalInfoTrackersActivity extends AppCompatActivity {
         barChart.invalidate();
     }
 
-    private BarData buildBarData(ArrayList<Integer> data) {
+    private BarData buildBarData(ArrayList<Integer> data, ArrayList<String> axisValues) {
         ArrayList<BarEntry> barEntries = new ArrayList<BarEntry>();
-        for(Integer point : data) {
-            barEntries.add(new BarEntry(barEntries.size(), point));
-        }
+        for(int i=0 ; i < data.size(); i++) {
+            BarEntry be = new BarEntry(barEntries.size(), data.get(i), axisValues.get(i));
+            barEntries.add(be);
+            }
+
         BarDataSet bds = new BarDataSet(barEntries, "Host Counts");
         bds.setColors(ColorTemplate.JOYFUL_COLORS);
 
         BarData bd = new BarData(bds);
         bd.setBarWidth(0.9f);
+
 
         return bd;
     }
