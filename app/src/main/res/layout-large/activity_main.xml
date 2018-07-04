@@ -87,7 +87,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorWhite"
-                android:textSize="12sp"
+                android:textSize="18sp"
                 android:text="@string/not_recording_message"
                 android:gravity="center"/>
 
