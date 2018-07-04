@@ -36,6 +36,7 @@ public class CSMGuidanceAdapter extends ArrayAdapter {
         TextView categoryName = (TextView) convertView.findViewById(R.id.guidanceTitleTextView);
         TextView categoryRating = (TextView) convertView.findViewById(R.id.guidanceCategoryRatingTextView);
         ImageView guidanceRatingIcon = (ImageView) convertView.findViewById(R.id.guidanceRatingIcon);
+        TextView ratingLabelDescription = (TextView) convertView.findViewById(R.id.ratingLabelDescription);
 
         Integer rating = guidance.rating;
         String description = guidance.description;
@@ -45,24 +46,31 @@ public class CSMGuidanceAdapter extends ArrayAdapter {
 
         if(rating == 5) {
             guidanceRatingIcon.setImageDrawable(convertView.getContext().getDrawable(R.drawable.happy_face));
+            ratingLabelDescription.setText("Looks Great!");
         }
         else if(rating == 4) {
             guidanceRatingIcon.setImageDrawable(convertView.getContext().getDrawable(R.drawable.smile_icon));
+            ratingLabelDescription.setText("Seems Good.");
         }
         else if(rating == 3) {
             guidanceRatingIcon.setImageDrawable(convertView.getContext().getDrawable(R.drawable.neutral_icon));
+            ratingLabelDescription.setText("It's Okay.");
         }
         else if(rating == 2) {
             guidanceRatingIcon.setImageDrawable(convertView.getContext().getDrawable(R.drawable.sad_icon));
+            ratingLabelDescription.setText("Not Great.");
         }
         else if(rating == 1) {
             guidanceRatingIcon.setImageDrawable(convertView.getContext().getDrawable(R.drawable.sad_face));
+            ratingLabelDescription.setText("Oh No!");
         }
         else if(rating == 0 && !description.equals("No Rating")) {
             guidanceRatingIcon.setImageDrawable(convertView.getContext().getDrawable(R.drawable.thinking_face));
+            ratingLabelDescription.setText("Be Wary.");
         }
         else {
             guidanceRatingIcon.setImageDrawable(convertView.getContext().getDrawable(R.drawable.question_mark_icon));
+            ratingLabelDescription.setText("No Data.");
         }
 
             return convertView;
