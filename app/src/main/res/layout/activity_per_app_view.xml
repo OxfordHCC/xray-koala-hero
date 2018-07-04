@@ -139,7 +139,6 @@
                                 android:id="@+id/box_installs"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:paddingStart="10dp"
                                 app:layout_constraintEnd_toStartOf="@id/box_rating"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"
@@ -150,12 +149,13 @@
                                     android:id="@+id/installsLabelTextView"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="8dp"
+                                    android:layout_marginEnd="8dp"
+                                    android:layout_marginStart="8dp"
                                     android:text="@string/number_of_downloads"
                                     android:textColor="@color/offWhite"
                                     android:textSize="14sp"
-                                    app:layout_constraintEnd_toEndOf="@+id/installsTextView"
-                                    app:layout_constraintStart_toStartOf="@+id/installsTextView" />
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent" />
                                 <!--app:layout_constraintTop_toBottomOf="@+id/playStoreDetails"-->
 
 
@@ -163,11 +163,13 @@
                                     android:id="@+id/installsTextView"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:layout_marginEnd="8dp"
                                     android:layout_marginTop="8dp"
                                     android:text="1,000,000"
                                     android:textColor="@color/colorWhite"
-                                    android:textSize="20sp"
 
+                                    android:textSize="20sp"
+                                    app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintStart_toStartOf="parent"
                                     app:layout_constraintTop_toBottomOf="@+id/installsLabelTextView" />
                                 <!--app:layout_constraintEnd_toStartOf="@id/pegiRatingTextView"-->
@@ -222,7 +224,6 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="5dp"
                                 android:layout_marginEnd="5dp"
-                                android:paddingEnd="10dp"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toEndOf="@id/box_rating"
                                 app:layout_constraintTop_toTopOf="parent">
@@ -231,11 +232,13 @@
                                     android:id="@+id/Pegi"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:layout_marginStart="8dp"
+                                    android:layout_marginEnd="8dp"
                                     android:text="@string/pegi_label"
-                                    android:textColor="@color/offWhite"
 
-                                    app:layout_constraintEnd_toEndOf="@id/pegiRatingTextView"
-                                    app:layout_constraintStart_toStartOf="@id/pegiRatingTextView" />
+                                    android:textColor="@color/offWhite"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"/>
                                 <!--app:layout_constraintTop_toTopOf="@id/installsLabelTextView"-->
 
 
@@ -250,6 +253,7 @@
 
                                     android:textColor="@color/colorWhite"
                                     android:textSize="20sp"
+                                    app:layout_constraintStart_toStartOf="parent"
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintTop_toBottomOf="@id/Pegi" />
                                 <!--app:layout_constraintStart_toEndOf="@+id/installsTextView"-->
