@@ -73,7 +73,6 @@ public class SelectionAdapter extends BaseAdapter {
 
         ImageView appIconView, selectedIcon;
         TextView appNameView;
-        CheckBox selectedBox;
 
         View grid;
         if( convertView == null) {
@@ -102,9 +101,9 @@ public class SelectionAdapter extends BaseAdapter {
             selectedIcon =  (ImageView) grid.findViewById(R.id.selected_icon);
 
             if( app.isSelectedToDisplay() )
-                selectedIcon.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_check_box_checked));
+                selectedIcon.setImageResource(R.drawable.circle_tick);
             else
-                selectedIcon.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_check_box_outline_blank));
+                selectedIcon.setImageResource(R.drawable.circle_no_tick);
 
 
         }
