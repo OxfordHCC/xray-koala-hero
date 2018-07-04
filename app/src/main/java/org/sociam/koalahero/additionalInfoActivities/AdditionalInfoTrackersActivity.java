@@ -51,26 +51,45 @@ public class AdditionalInfoTrackersActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Who is Watching?");
+        getSupportActionBar().setTitle("Is This Normal?");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         XRayAPI xRayAPI = XRayAPI.getInstance();
 
         HashMap<AppGenre, AppGenreHostInfo> appGenreHostInfos = xRayAPI.readGenreHostInfo(getApplicationContext());
-
         HashMap<String, TrackerMapperCompany> companyMap = this.selectedApp.companies;
 
         ArrayList<TrackerMapperCompany> companyNames = new ArrayList<>(companyMap.values());
-
         ArrayList<String> hostNames = this.selectedApp.getxRayAppInfo().hosts;
 
         AppGenreHostInfo thisAppsGenreInfo = appGenreHostInfos.get(this.selectedApp.getxRayAppInfo().appStoreInfo.getAppGenre());
 
+        /**
+         *  Rating Setup
+         */
 
-        TextView thisAppHostCount = (TextView) findViewById(R.id.thisAppValueTextView);
-        TextView genreAvgHostCount = (TextView) findViewById(R.id.genreAverageValue);
-        TextView genreAvgHostLabel = (TextView) findViewById(R.id.genreAverageLabel);
+        TextView thisAppHostCountTV = (TextView) findViewById(R.id.thisAppHostCount);
+        ImageView ratingIconIV = (ImageView) findViewById(R.id.hostRatingImage);
 
+        Integer genreAverageHostCount = (int) thisAppsGenreInfo.genreAvgHosts;
+        Integer thisAppHostCount = hostNames.size();
+
+        thisAppHostCountTV.setText(thisAppHostCount.toString());
+
+        if(thisAppHostCount > genreAverageHostCount*1.2) {
+            ratingIconIV.setImageDrawable(getDrawable(R.drawable.sad_face));
+        }
+        else if(thisAppHostCount < genreAverageHostCount*0.8) {
+            ratingIconIV.setImageDrawable(getDrawable(R.drawable.happy_face));
+        }
+        else {
+            ratingIconIV.setImageDrawable(getDrawable(R.drawable.expressionless_face));
+        }
+
+
+        /**
+         *  Header Info
+         */
         TextView appTitle = (TextView) findViewById(R.id.per_app_title);
         TextView devTitle = (TextView) findViewById(R.id.trackerDevNameTextView);
 
@@ -79,14 +98,13 @@ public class AdditionalInfoTrackersActivity extends AppCompatActivity {
         appTitle.setText(this.selectedApp.getxRayAppInfo().appStoreInfo.title);
         devTitle.setText(this.selectedApp.getxRayAppInfo().developerInfo.devName);
 
-        thisAppHostCount.setText(String.valueOf(hostNames.size()));
-        genreAvgHostCount.setText(String.valueOf((int) thisAppsGenreInfo.genreAvgHosts));
-        genreAvgHostLabel.setText(thisAppsGenreInfo.getAppGenre().toLabel());
 
-
+        /**
+         *  Barchart Setup
+         */
         ArrayList<Integer> barValues = new ArrayList<>();
-        barValues.add(hostNames.size());
-        barValues.add((int) thisAppsGenreInfo.genreAvgHosts);
+        barValues.add(thisAppHostCount);
+        barValues.add(genreAverageHostCount );
         barValues.add(0);
 
         ArrayList<String> axisLabels = new ArrayList<String>(Arrays.asList("This App", "Genre Avg", "All Apps Avg"));
@@ -94,8 +112,9 @@ public class AdditionalInfoTrackersActivity extends AppCompatActivity {
         BarData bd = this.buildBarData(barValues);
         this.buildHostBarChart(bd ,axisLabels);
 
-
-        // Set information read from device
+        /**
+         * Set information read from device
+         */
         try {
             ApplicationInfo appInfo = getPackageManager().getApplicationInfo(this.selectedApp.getxRayAppInfo().app,0);
 
