@@ -70,6 +70,8 @@ public class AdditionalInfoTrackersActivity extends AppCompatActivity {
 
         TextView thisAppHostCountTV = (TextView) findViewById(R.id.thisAppHostCount);
         ImageView ratingIconIV = (ImageView) findViewById(R.id.hostRatingImage);
+        TextView scoreCommentTV = (TextView) findViewById(R.id.scoreCommentTV);
+
 
         Integer genreAverageHostCount = (int) thisAppsGenreInfo.genreAvgHosts;
         Integer thisAppHostCount = hostNames.size();
@@ -78,12 +80,15 @@ public class AdditionalInfoTrackersActivity extends AppCompatActivity {
 
         if(thisAppHostCount > genreAverageHostCount*1.2) {
             ratingIconIV.setImageDrawable(getDrawable(R.drawable.sad_face));
+            scoreCommentTV.setText("Worse than Average");
         }
         else if(thisAppHostCount < genreAverageHostCount*0.8) {
             ratingIconIV.setImageDrawable(getDrawable(R.drawable.happy_face));
+            scoreCommentTV.setText("Better than Average");
         }
         else {
             ratingIconIV.setImageDrawable(getDrawable(R.drawable.expressionless_face));
+            scoreCommentTV.setText("About Average");
         }
 
 
@@ -131,8 +136,7 @@ public class AdditionalInfoTrackersActivity extends AppCompatActivity {
         BarChart barChart = (BarChart) findViewById(R.id.hostBarChart);
         barChart.setData(barData);
         barChart.setFitBars(true);
-        barChart.getXAxis().setDrawLabels(false);
-        barChart.getXAxis().setDrawAxisLine(false);
+        barChart.getXAxis().setDrawLabels(true);
         barChart.getXAxis().setDrawGridLines(false);
         barChart.getXAxis().setLabelCount(barData.getEntryCount());
         barChart.setScaleEnabled(false);
