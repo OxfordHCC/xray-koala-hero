@@ -130,7 +130,7 @@ public class AdditionalInfoTrackersActivity extends AppCompatActivity {
         barValues.add(genreAverageHostCount );
         barValues.add((int) avgGenreHosts);
 
-        ArrayList<String> axisLabels = new ArrayList<String>(Arrays.asList("This App", "Genre Avg", "All Apps Avg"));
+        ArrayList<String> axisLabels = new ArrayList<String>(Arrays.asList("This App", "Genre Average", "Average of all Apps"));
 
         BarData bd = this.buildBarData(barValues, axisLabels);
         this.buildHostBarChart(bd, axisLabels, (int) maxGenreAvg);
