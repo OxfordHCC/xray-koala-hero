@@ -151,6 +151,8 @@ public class AdditionalInfoTrackersActivity extends AppCompatActivity {
                 return labels.get((int) value);
             }
         });
+        barChart.getAxisLeft().mAxisMinimum = 0f;
+
         barChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
         barChart.getXAxis().setDrawLabels(true);
         barChart.getXAxis().setDrawGridLines(false);
