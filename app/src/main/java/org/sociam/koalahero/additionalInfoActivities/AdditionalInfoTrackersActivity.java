@@ -75,7 +75,6 @@ public class AdditionalInfoTrackersActivity extends AppCompatActivity {
         ImageView ratingIconIV = (ImageView) findViewById(R.id.hostRatingImage);
         TextView scoreCommentTV = (TextView) findViewById(R.id.scoreCommentTV);
 
-
         Integer genreAverageHostCount = (int) thisAppsGenreInfo.genreAvgHosts;
         Integer thisAppHostCount = hostNames.size();
 
@@ -110,10 +109,17 @@ public class AdditionalInfoTrackersActivity extends AppCompatActivity {
         /**
          *  Barchart Setup
          */
+
+        float avgGenreHosts = 0;
+        for(AppGenreHostInfo genre : appGenreHostInfos.values()) {
+            avgGenreHosts += genre.genreAvgHosts;
+        }
+        avgGenreHosts /= appGenreHostInfos.size();
+
         ArrayList<Integer> barValues = new ArrayList<>();
         barValues.add(thisAppHostCount);
         barValues.add(genreAverageHostCount );
-        barValues.add(0);
+        barValues.add((int) avgGenreHosts);
 
         ArrayList<String> axisLabels = new ArrayList<String>(Arrays.asList("This App", "Genre Avg", "All Apps Avg"));
 
