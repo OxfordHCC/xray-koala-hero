@@ -163,7 +163,7 @@ public class AdditionalInfoTrackersActivity extends AppCompatActivity {
 
         barChart.getAxisLeft().setAxisMaximum(maxValue);
         barChart.getAxisLeft().setAxisMinimum(0);
-
+        barChart.getAxisRight().setEnabled(false);
         barChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
         barChart.getXAxis().setDrawLabels(true);
         barChart.getXAxis().setDrawGridLines(false);
