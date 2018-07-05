@@ -111,8 +111,17 @@ public class AdditionalInfoTrackersActivity extends AppCompatActivity {
          */
 
         float avgGenreHosts = 0;
+        float maxGenreAvg = 0;
         for(AppGenreHostInfo genre : appGenreHostInfos.values()) {
-            avgGenreHosts += genre.genreAvgHosts;
+            float currAvg = genre.hostCount;
+
+            avgGenreHosts += currAvg;
+            if(currAvg > maxGenreAvg) {
+                maxGenreAvg = currAvg;
+            }
+        }
+        if(thisAppHostCount > maxGenreAvg) {
+            maxGenreAvg = thisAppHostCount;
         }
         avgGenreHosts /= appGenreHostInfos.size();
 
@@ -124,7 +133,7 @@ public class AdditionalInfoTrackersActivity extends AppCompatActivity {
         ArrayList<String> axisLabels = new ArrayList<String>(Arrays.asList("This App", "Genre Avg", "All Apps Avg"));
 
         BarData bd = this.buildBarData(barValues, axisLabels);
-        this.buildHostBarChart(bd, axisLabels);
+        this.buildHostBarChart(bd, axisLabels, (int) maxGenreAvg);
 
         /**
          * Set information read from device
@@ -141,7 +150,7 @@ public class AdditionalInfoTrackersActivity extends AppCompatActivity {
         }
     }
 
-    private void buildHostBarChart(BarData barData, final ArrayList<String> labels){
+    private void buildHostBarChart(BarData barData, final ArrayList<String> labels, int maxValue){
         BarChart barChart = (BarChart) findViewById(R.id.hostBarChart);
         barChart.setData(barData);
         barChart.setFitBars(true);
@@ -151,7 +160,9 @@ public class AdditionalInfoTrackersActivity extends AppCompatActivity {
                 return labels.get((int) value);
             }
         });
-        barChart.getAxisLeft().mAxisMinimum = 0f;
+
+        barChart.getAxisLeft().setAxisMaximum(maxValue);
+        barChart.getAxisLeft().setAxisMinimum(0);
 
         barChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
         barChart.getXAxis().setDrawLabels(true);
