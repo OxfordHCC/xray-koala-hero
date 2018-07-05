@@ -110,10 +110,10 @@ public class AdditionalInfoTrackersActivity extends AppCompatActivity {
          *  Barchart Setup
          */
 
-        float avgGenreHosts = 0;
-        float maxGenreAvg = 0;
+        double avgGenreHosts = 0;
+        double maxGenreAvg = 0;
         for(AppGenreHostInfo genre : appGenreHostInfos.values()) {
-            float currAvg = genre.hostCount;
+            double currAvg = genre.genreAvgHosts;
 
             avgGenreHosts += currAvg;
             if(currAvg > maxGenreAvg) {
@@ -123,7 +123,7 @@ public class AdditionalInfoTrackersActivity extends AppCompatActivity {
         if(thisAppHostCount > maxGenreAvg) {
             maxGenreAvg = thisAppHostCount;
         }
-        avgGenreHosts /= appGenreHostInfos.size();
+        avgGenreHosts = avgGenreHosts / appGenreHostInfos.keySet().size();
 
         ArrayList<Integer> barValues = new ArrayList<>();
         barValues.add(thisAppHostCount);
