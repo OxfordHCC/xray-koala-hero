@@ -187,7 +187,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:text="About Average"
-            android:textSize="25sp"
+            android:textSize="22sp"
             app:layout_constraintEnd_toEndOf="@+id/hostRatingImage"
             app:layout_constraintStart_toStartOf="@+id/hostRatingImage"
             app:layout_constraintTop_toBottomOf="@+id/hostRatingImage" />
