@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.webkit.WebView;
 import android.widget.ImageView;
 
@@ -70,6 +71,13 @@ public class OverviewActivity extends AppCompatActivity {
             } catch (PackageManager.NameNotFoundException e){
 
             }
+
+        }
+
+        for( int i = nApps; i < 10; i++ ){
+
+            ImageView iv = (ImageView) findViewById(getResId("icon_" + i, R.id.class));
+            iv.setVisibility(View.GONE);
 
         }
 
@@ -160,8 +168,8 @@ public class OverviewActivity extends AppCompatActivity {
         String data = "";
 
         data += "<html><head><script type='text/javascript' src='https://www.google.com/jsapi'></script> <script type='text/javascript'> google.load('visualization', '1', {'packages': ['geochart']});google.setOnLoadCallback(drawRegionsMap);";
-        data += " function drawRegionsMap() { var data = new google.visualization.DataTable();data.addColumn('string', 'Country');data.addColumn('number', 'Popularity');data.addRows([" + rows + "]);";
-        data += "var options = {};var chart = new google.visualization.GeoChart(document.getElementById('chart_div'));chart.draw(data, options); };</script></head><body style='padding: 10px 0;'><div id='chart_div' style='width: 100%; '></div></body></html> ";
+        data += " function drawRegionsMap() { var data = new google.visualization.DataTable();data.addColumn('string', 'Country');data.addColumn('number', 'Number of Hosts');data.addRows([" + rows + "]);";
+        data += "var options = {};var chart = new google.visualization.GeoChart(document.getElementById('chart_div'));chart.draw(data, options); };</script></head><body style='padding: 10px 0;'><div id='chart_div' style='width: 100%;'></div></body></html> ";
 
 
         WebView wv = (WebView) findViewById(R.id.web_view);
