@@ -97,7 +97,6 @@ public class OverviewActivity extends AppCompatActivity {
             try {
                 ApplicationInfo appInfo = getPackageManager().getApplicationInfo(a.getxRayAppInfo().app,0);
                 axisLabels.add("");
-                //axisLabels.add( (String) getPackageManager().getApplicationLabel(appInfo) );
             }
             catch (PackageManager.NameNotFoundException e) { e.printStackTrace(); }
 
@@ -133,9 +132,7 @@ public class OverviewActivity extends AppCompatActivity {
             totalHosts += info.hostCount;
         }
 
-        //barValues.add( totalHosts/totalApps );
-        //axisLabels.add( "Average of All Apps");
-        //axisLabels.add("");
+        int totalAvg = totalHosts/totalApps ;
 
 
 
@@ -144,9 +141,6 @@ public class OverviewActivity extends AppCompatActivity {
 
 
         // =============== MAP ===============
-
-
-            //System.out.println(code + " " +  hostCountriesCount.get(code));
 
         CountryCodeConverter ccC = new CountryCodeConverter();
 
