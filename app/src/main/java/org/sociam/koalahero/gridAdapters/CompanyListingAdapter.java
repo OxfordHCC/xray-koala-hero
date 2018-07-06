@@ -68,7 +68,7 @@ public class CompanyListingAdapter extends BaseAdapter {
             companyViewUnicode.setText(this.codeToEmojiString(company.locale.toUpperCase()));
         }
         else {
-            companyViewUnicode.setText("🏴‍☠️");
+            companyViewUnicode.setText("☠");
         }
 
 
