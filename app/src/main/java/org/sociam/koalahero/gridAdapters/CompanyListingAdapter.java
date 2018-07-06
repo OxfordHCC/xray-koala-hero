@@ -65,10 +65,10 @@ public class CompanyListingAdapter extends BaseAdapter {
         TextView companyViewUnicode = (TextView) grid.findViewById(R.id.companyViewUnicode);
         System.out.println(company.locale);
         if(company.locale != null && company.locale.length() == 2) {
-            companyViewUnicode.setText(this.codeToEmojiString(company.locale));
+            companyViewUnicode.setText(this.codeToEmojiString(company.locale.toUpperCase()));
         }
         else {
-            companyViewUnicode.setText("🏳️‍🌈");
+            companyViewUnicode.setText("🏴‍☠️");
         }
 
 
