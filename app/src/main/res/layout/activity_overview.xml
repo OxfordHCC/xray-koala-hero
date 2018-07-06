@@ -49,7 +49,6 @@
                     android:layout_width="@dimen/overview_icon"
                     android:layout_height="@dimen/overview_icon"
                     android:layout_marginTop="8dp"
-                    android:src="@drawable/question_mark_icon"
                     app:layout_constraintEnd_toStartOf="@id/icon_1"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/privacy_for" />
@@ -59,7 +58,6 @@
                     android:layout_width="@dimen/overview_icon"
                     android:layout_height="@dimen/overview_icon"
                     android:layout_marginTop="8dp"
-                    android:src="@drawable/question_mark_icon"
                     app:layout_constraintEnd_toStartOf="@id/icon_2"
                     app:layout_constraintStart_toEndOf="@id/icon_0"
                     app:layout_constraintTop_toBottomOf="@id/privacy_for" />
@@ -69,7 +67,6 @@
                     android:layout_width="@dimen/overview_icon"
                     android:layout_height="@dimen/overview_icon"
                     android:layout_marginTop="8dp"
-                    android:src="@drawable/question_mark_icon"
                     app:layout_constraintEnd_toStartOf="@id/icon_3"
                     app:layout_constraintStart_toEndOf="@id/icon_1"
                     app:layout_constraintTop_toBottomOf="@id/privacy_for" />
@@ -79,7 +76,6 @@
                     android:layout_width="@dimen/overview_icon"
                     android:layout_height="@dimen/overview_icon"
                     android:layout_marginTop="8dp"
-                    android:src="@drawable/question_mark_icon"
                     app:layout_constraintEnd_toStartOf="@id/icon_4"
                     app:layout_constraintStart_toEndOf="@id/icon_2"
                     app:layout_constraintTop_toBottomOf="@id/privacy_for" />
@@ -89,7 +85,6 @@
                     android:layout_width="@dimen/overview_icon"
                     android:layout_height="@dimen/overview_icon"
                     android:layout_marginTop="8dp"
-                    android:src="@drawable/question_mark_icon"
                     app:layout_constraintEnd_toStartOf="@id/icon_5"
                     app:layout_constraintStart_toEndOf="@id/icon_3"
                     app:layout_constraintTop_toBottomOf="@id/privacy_for" />
@@ -99,7 +94,6 @@
                     android:layout_width="@dimen/overview_icon"
                     android:layout_height="@dimen/overview_icon"
                     android:layout_marginTop="8dp"
-                    android:src="@drawable/question_mark_icon"
                     app:layout_constraintEnd_toStartOf="@id/icon_6"
                     app:layout_constraintStart_toEndOf="@id/icon_4"
                     app:layout_constraintTop_toBottomOf="@id/privacy_for" />
@@ -109,7 +103,6 @@
                     android:layout_width="@dimen/overview_icon"
                     android:layout_height="@dimen/overview_icon"
                     android:layout_marginTop="8dp"
-                    android:src="@drawable/question_mark_icon"
                     app:layout_constraintEnd_toStartOf="@id/icon_7"
                     app:layout_constraintStart_toEndOf="@id/icon_5"
                     app:layout_constraintTop_toBottomOf="@id/privacy_for" />
@@ -119,7 +112,6 @@
                     android:layout_width="@dimen/overview_icon"
                     android:layout_height="@dimen/overview_icon"
                     android:layout_marginTop="8dp"
-                    android:src="@drawable/question_mark_icon"
                     app:layout_constraintEnd_toStartOf="@id/icon_8"
                     app:layout_constraintStart_toEndOf="@id/icon_6"
                     app:layout_constraintTop_toBottomOf="@id/privacy_for" />
@@ -129,7 +121,6 @@
                     android:layout_width="@dimen/overview_icon"
                     android:layout_height="@dimen/overview_icon"
                     android:layout_marginTop="8dp"
-                    android:src="@drawable/question_mark_icon"
                     app:layout_constraintEnd_toStartOf="@id/icon_9"
                     app:layout_constraintStart_toEndOf="@id/icon_7"
                     app:layout_constraintTop_toBottomOf="@id/privacy_for" />
@@ -139,7 +130,6 @@
                     android:layout_width="@dimen/overview_icon"
                     android:layout_height="@dimen/overview_icon"
                     android:layout_marginTop="8dp"
-                    android:src="@drawable/question_mark_icon"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/icon_8"
                     app:layout_constraintTop_toBottomOf="@id/privacy_for" />
