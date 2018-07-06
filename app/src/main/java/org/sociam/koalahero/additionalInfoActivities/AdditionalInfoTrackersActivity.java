@@ -128,23 +128,6 @@ public class AdditionalInfoTrackersActivity extends AppCompatActivity {
         if( genreAverageHostCount > maxChartValue ) maxChartValue = genreAverageHostCount;
         if( thisAppHostCount > maxChartValue) maxChartValue = thisAppHostCount;
 
-        // === Old Average Calculation ===
-//        double avgGenreHosts = 0;
-//        double maxGenreAvg = 0;
-//        for(AppGenreHostInfo genre : appGenreHostInfos.values()) {
-//            double currAvg = genre.genreAvgHosts;
-//
-//            avgGenreHosts += currAvg;
-//            if(currAvg > maxGenreAvg) {
-//                maxGenreAvg = currAvg;
-//            }
-//        }
-//        if(thisAppHostCount > maxGenreAvg) {
-//            maxGenreAvg = thisAppHostCount;
-//        }
-//        avgGenreHosts = avgGenreHosts / appGenreHostInfos.keySet().size();
-        // === ===
-
         ArrayList<Integer> barValues = new ArrayList<>();
         barValues.add(thisAppHostCount);
         barValues.add(genreAverageHostCount );
