@@ -44,6 +44,8 @@ import java.util.Map;
 
 public class OverviewActivity extends AppCompatActivity {
 
+    private static final int BARCHART_MAX_OFFSET = 3;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -200,18 +202,22 @@ public class OverviewActivity extends AppCompatActivity {
             }
         });
 
-        barChart.getAxisLeft().setAxisMaximum(maxValue);
+        barChart.getAxisLeft().setAxisMaximum(maxValue + BARCHART_MAX_OFFSET);
         barChart.getAxisLeft().setAxisMinimum(0);
         barChart.getAxisRight().setEnabled(false);
+
+
         barChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
         barChart.getXAxis().setDrawLabels(true);
         barChart.getXAxis().setLabelRotationAngle(90);
         barChart.getXAxis().setDrawGridLines(false);
         barChart.getXAxis().setLabelCount(barData.getEntryCount());
         barChart.getXAxis().setDrawLabels(false);
+
         barChart.getDescription().setEnabled(false);
         barChart.setScaleEnabled(false);
         barChart.getLegend().setEnabled(false);
+
 
         barChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
             @Override
