@@ -102,7 +102,7 @@ public class OverviewActivity extends AppCompatActivity {
 
             try {
                 ApplicationInfo appInfo = getPackageManager().getApplicationInfo(a.getxRayAppInfo().app,0);
-                axisLabels.add("");
+                axisLabels.add(a.getPackageName());
             }
             catch (PackageManager.NameNotFoundException e) { e.printStackTrace(); }
 
@@ -208,6 +208,7 @@ public class OverviewActivity extends AppCompatActivity {
         barChart.getXAxis().setLabelRotationAngle(90);
         barChart.getXAxis().setDrawGridLines(false);
         barChart.getXAxis().setLabelCount(barData.getEntryCount());
+        barChart.getXAxis().setDrawLabels(false);
         barChart.getDescription().setEnabled(false);
         barChart.setScaleEnabled(false);
         barChart.getLegend().setEnabled(false);
