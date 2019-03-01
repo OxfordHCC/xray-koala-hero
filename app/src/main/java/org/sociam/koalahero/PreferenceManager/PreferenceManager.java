@@ -12,7 +12,7 @@ public class PreferenceManager {
 
     private final String KOALA_TOKEN_STRING = ".koala_token";
 
-    private final String KOALA_LOGIN_STUDY_ID = ".koala_email";
+    private final String KOALA_LOGIN_STUDY_ID = ".koala_studyid";
 
     private PreferenceManager() {
 
