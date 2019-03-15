@@ -85,6 +85,9 @@
     <string name="csm_rating_label">Expert Rating:</string>
     <string name="cms_details">Common Sense Media Information</string>
 
+    <!-- Common Sense nudge message -->
+    <string name="csm_nudge">Here are what experts think about the app. Do you and your parent agree or disagree with them? Would you continue to use the app? (If nothing is shown here, that means the experts havent taken a look at the app yet.)</string>
+
     <!-- Common Sense guidance Titles -->
     <string name="drugs_guidance_title">Drinking, Drugs, and Smoking</string>
     <string name="consumerism_guidance_title"> In-app Promotions</string>
@@ -96,10 +99,13 @@
 
     <!-- Tracker View Text -->
     <string name="tracker_this_app_first">This app sends information to </string>
-    <string name="tracker_this_app_second">different destinations</string>
+    <string name="tracker_this_app_second">different destinations. </string>
 
     <string name="tracker_genre_first">On average, apps in the same genre send information to </string>
     <string name="tracker_genre_second">different points.</string>
+
+    <!-- Common Sense nudge message -->
+    <string name="tracker_nudge">What do you think about this? Would you continue to use the app?</string>
 
     <!-- Overview -->
     <string name="profile_for">My App Privacy Profile</string>
