@@ -103,8 +103,8 @@
 
     <!-- Overview -->
     <string name="profile_for">My App Privacy Profile</string>
-    <string name="where_data_sent">How many different places are my apps sending my data to?</string>
-    <string name="map_data_sent">How many different places in each country are my apps sending my data to?</string>
+    <string name="where_data_sent">Here shows how many trackers are associated with each of your app. What do you think about this? Click on each bar, to take a closer look!</string>
+    <string name="map_data_sent">Here shows how many different places your apps are sending your data to. What do you think about this? Go back to the previous page to find out which app is sending data to where! </string>
 
     <string name="goto_overview">See Apps Overview</string>
 

@@ -39,7 +39,8 @@
                     android:paddingEnd="8dp"
                     android:paddingStart="8dp"
                     android:text="@string/where_data_sent"
-                    android:textSize="14sp"
+                    android:textSize="24sp"
+                    android:textStyle="bold|italic"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <com.github.mikephil.charting.charts.BarChart
@@ -149,7 +150,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/map_data_sent"
-                android:textSize="14sp"
+                android:textSize="24sp"
+                android:textStyle="bold|italic"
                 android:padding="8dp"
                 android:gravity="center"/>
 

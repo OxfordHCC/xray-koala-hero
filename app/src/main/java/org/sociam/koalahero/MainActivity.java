@@ -197,6 +197,8 @@ public class MainActivity extends AppCompatActivity {
     }
     private void startApp() {
         // if no token, launch login,
+        System.out.println(preferenceManager.getKoalaToken());
+        System.out.println(preferenceManager.getKoalaStudyID());
         if(preferenceManager.getKoalaToken().equals("")) {
             launchLogin();
         }
@@ -224,10 +226,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 final RegistrationDetails regDeets = new RegistrationDetails(studyIDET.getText().toString(), passwordET.getText().toString());
+
                 koalaAPI.executeKoalaLoginRequest(
                     new Function<TokenResponse, Void>() {
                          @Override
                          public Void apply(TokenResponse tokenResponse) {
+//                             preferenceManager.saveKoalaStudyID(regDeets.study_id);
+//                             preferenceManager.saveKoalaToken(tokenResponse.token);
+//                             beginLoading();
+
                              if(!tokenResponse.token.equals("")) {
                                  preferenceManager.saveKoalaStudyID(regDeets.study_id);
                                  preferenceManager.saveKoalaToken(tokenResponse.token);
@@ -504,7 +511,7 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Koala Hero");
+        getSupportActionBar().setTitle("Hi, Welcome to Koala Hero!");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu);
 
@@ -561,6 +568,8 @@ public class MainActivity extends AppCompatActivity {
     private AppAdapter appAdapter;
 
     public void updateGridView(){
+        TextView nudgeMsg = (TextView) findViewById( R.id.nudgeMessage );
+        nudgeMsg.setText("Here are your top 10 most used apps. Would you like to take a look at them, or talk to your parents about them?");
 
         TextView message = (TextView) findViewById( R.id.noAppsMessage );
         if( appAdapter.getCount() == 0 ) message.setVisibility(View.VISIBLE);
